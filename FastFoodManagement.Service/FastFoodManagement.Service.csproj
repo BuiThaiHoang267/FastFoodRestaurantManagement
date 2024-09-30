@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FastFoodManagement.Common\FastFoodManagement.Common.csproj" />
+    <ProjectReference Include="..\FastFoodManagement.Data\FastFoodManagement.Data.csproj" />
+    <ProjectReference Include="..\FastFoodManagement.Model\FastFoodManagement.Model.csproj" />
+  </ItemGroup>
+
 </Project>
