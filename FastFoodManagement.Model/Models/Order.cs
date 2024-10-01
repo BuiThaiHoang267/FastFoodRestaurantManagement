@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FastFoodManagement.Model.Abstract;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FastFoodManagement.Model.Models
 {
     [Table("Orders")]
-    public class Order
+    public class Order : Auditable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

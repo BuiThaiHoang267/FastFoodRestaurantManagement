@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FastFoodManagement.Model.Abstract;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FastFoodManagement.Model.Models
 {
     [Table("Employees")]
-    public class Employee
-    {
+    public class Employee : Auditable
+    { 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
