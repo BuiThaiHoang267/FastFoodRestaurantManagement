@@ -1,11 +1,16 @@
 ﻿using FastFoodManagement.Model.Abstract;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FastFoodManagement.Model.Models
 {
-    [Table("Categories")]
-    public class Category : Auditable
+    [Table("Roles")]
+    public class Role : Auditable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,7 +20,10 @@ namespace FastFoodManagement.Model.Models
         [MaxLength(50)]
         public string Name { get; set; } = default!;
 
-        // Navigation property to Product
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+        [MaxLength(256)]
+        public string? Description { get; set; }
+
+        // Navigation property to User
+        public virtual ICollection<User> Users { get; set; } = new List<User>();
     }
 }

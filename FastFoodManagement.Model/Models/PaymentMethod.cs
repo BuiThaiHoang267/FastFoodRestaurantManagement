@@ -1,11 +1,16 @@
 ﻿using FastFoodManagement.Model.Abstract;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FastFoodManagement.Model.Models
 {
-    [Table("Categories")]
-    public class Category : Auditable
+    [Table("PaymentMethods")]
+    public class PaymentMethod: Auditable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,7 +20,7 @@ namespace FastFoodManagement.Model.Models
         [MaxLength(50)]
         public string Name { get; set; } = default!;
 
-        // Navigation property to Product
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+        // Navigation property to Order
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }
