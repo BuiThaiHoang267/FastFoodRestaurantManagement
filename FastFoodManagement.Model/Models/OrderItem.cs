@@ -2,16 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace FastFoodManagement.Model.Models
 {
     [Table("OrderItems")]
     public class OrderItem: Auditable
     {
-        [Key, Column(Order = 0)]
         public int OrderId { get; set; }
 
-        [Key, Column(Order = 1)]
         public int ProductId { get; set; }
 
         [Required]

@@ -7,10 +7,8 @@ namespace FastFoodManagement.Model.Models
     [Table("PurchaseInvoiceItems")]
     public class PurchaseInvoiceItem : Auditable
     {
-        [Key, Column(Order = 0)]
         public int PurchaseInvoiceId { get; set; }
 
-        [Key, Column(Order = 1)]
         public int IngredientId { get; set; }
 
         [Required]
