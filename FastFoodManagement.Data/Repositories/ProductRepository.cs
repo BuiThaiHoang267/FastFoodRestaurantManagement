@@ -3,7 +3,7 @@ using FastFoodManagement.Model.Models;
 
 namespace FastFoodManagement.Data.Repositories
 {
-    public interface IProductRepository
+    public interface IProductRepository : IRepository<Product>
     {
         // Add more specific methods here when necessary
     }

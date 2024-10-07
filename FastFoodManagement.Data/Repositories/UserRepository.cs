@@ -3,7 +3,7 @@ using FastFoodManagement.Model.Models;
 
 namespace FastFoodManagement.Data.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
 
     }

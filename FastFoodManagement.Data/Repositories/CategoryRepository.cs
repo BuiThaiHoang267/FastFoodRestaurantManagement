@@ -3,9 +3,9 @@ using FastFoodManagement.Model.Models;
 
 namespace FastFoodManagement.Data.Repositories
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IRepository<Category>
     {
-        // Add more specific methods here when necessary
+
     }
     public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
     {
