@@ -7,7 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FastFoodManagement.Common\FastFoodManagement.Common.csproj" />
+    <ProjectReference Include="..\FastFoodManagement.Data\FastFoodManagement.Data.csproj" />
+    <ProjectReference Include="..\FastFoodManagement.Model\FastFoodManagement.Model.csproj" />
+    <ProjectReference Include="..\FastFoodManagement.Service\FastFoodManagement.Service.csproj" />
   </ItemGroup>
 
 </Project>
