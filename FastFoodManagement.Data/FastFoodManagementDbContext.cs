@@ -40,12 +40,6 @@ namespace FastFoodManagement.Data
             modelBuilder.Entity<PurchaseInvoiceItem>()
                 .HasKey(pii => new { pii.PurchaseInvoiceId, pii.IngredientId });
 
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.Employee)
-                .WithMany(e => e.Orders)
-                .HasForeignKey(o => o.EmployeeId)
-                .OnDelete(DeleteBehavior.NoAction);
-
             modelBuilder.Entity<PurchaseInvoice>()
                 .HasOne(o => o.Employee)
                 .WithMany(e => e.PurchaseInvoices)

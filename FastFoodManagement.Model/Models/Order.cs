@@ -20,12 +20,11 @@ namespace FastFoodManagement.Model.Models
         public string Status { get; set; } = default!;
 
         [Required]
-        [ForeignKey("Branch")]
-        public int BranchId { get; set; }
+        public int NumberOrder { get; set; }
 
         [Required]
-        [ForeignKey("Employee")]
-        public int EmployeeId { get; set; }
+        [ForeignKey("Branch")]
+        public int BranchId { get; set; }
 
         [Required]
         [ForeignKey("PaymentMethod")]
@@ -33,9 +32,6 @@ namespace FastFoodManagement.Model.Models
 
         // Navigation property to Branch
         public virtual Branch Branch { get; set; } = default!;
-
-        // Navigation property to Employee
-        public virtual Employee Employee { get; set; } = default!;
 
         // Navigation property to PaymentMethod
         public virtual PaymentMethod PaymentMethod { get; set; } = default!;

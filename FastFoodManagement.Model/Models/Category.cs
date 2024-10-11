@@ -15,6 +15,9 @@ namespace FastFoodManagement.Model.Models
         [MaxLength(50)]
         public string Name { get; set; } = default!;
 
+        [MaxLength(256)]
+        public string? Image { get; set; }
+
         // Navigation property to Product
         public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
