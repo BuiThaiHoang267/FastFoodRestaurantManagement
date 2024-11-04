@@ -19,18 +19,20 @@ namespace FastFoodManagement.Model.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
-        [Required]
         [MaxLength(256)]
-        public string Image { get; set; } = default!;
+        public string? Image { get; set; }
 
         [Required]
+        public string Type { get; set; } = "Product";
+
+		[Required]
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
 
         // Navigation property to Category
         public virtual Category Category { get; set; } = default!;
 
-        // Navigation property to OrderItem
-        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-    }
+		// Navvigation property to ComboItem
+		public virtual ICollection<ComboItem> ComboItems { get; set; } = new List<ComboItem>();
+	}
 }
