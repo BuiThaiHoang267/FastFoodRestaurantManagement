@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodManagement.Web.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/category")]
 	[ApiController]
 	public class CategoryController : ControllerBase
 	{
+
 	}
 }
