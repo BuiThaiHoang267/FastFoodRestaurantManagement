@@ -22,4 +22,11 @@
     <ProjectReference Include="..\FastFoodManagement.Service\FastFoodManagement.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mappings\" />
+    <Folder Include="Middlewares\" />
+    <Folder Include="Configurations\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>
