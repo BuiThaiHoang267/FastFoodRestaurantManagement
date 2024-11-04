@@ -12,12 +12,26 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="xunit" Version="2.5.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FastFoodManagement.Common\FastFoodManagement.Common.csproj" />
+    <ProjectReference Include="..\FastFoodManagement.Data\FastFoodManagement.Data.csproj" />
+    <ProjectReference Include="..\FastFoodManagement.Model\FastFoodManagement.Model.csproj" />
+    <ProjectReference Include="..\FastFoodManagement.Service\FastFoodManagement.Service.csproj" />
+    <ProjectReference Include="..\FastFoodManagement.Web\FastFoodManagement.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="RepositoryTest\" />
+    <Folder Include="ServiceTest\" />
   </ItemGroup>
 
 </Project>
