@@ -7,21 +7,28 @@ namespace FastFoodManagement.Model.Models
     [Table("OrderItems")]
     public class OrderItem: Auditable
     {
-        public int OrderId { get; set; }
+        [Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
-        public int ProductId { get; set; }
+		[Required]
+        [ForeignKey("Order")]
+		public int OrderId { get; set; }
 
         [Required]
+        public int ItemId { get; set; }
+
+        [Required]
+        public string ItemType { get; set; } = default!;
+
+		[Required]
         public int Quantity { get; set; }
 
-        [Required]
+		[Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal UnitPrice { get; set; }
 
         //Navigation property to Order
         public virtual Order Order { get; set; } = default!;
-
-        //Navigation property to Product
-        public virtual Product Product { get; set; } = default!;
-    }
+	}
 }

@@ -3,7 +3,7 @@ using FastFoodManagement.Model.Models;
 
 namespace FastFoodManagement.Data.Repositories
 {
-    public interface IPurchaseInvoiceRepository
+    public interface IPurchaseInvoiceRepository : IRepository<PurchaseInvoice>
     {
 
     }

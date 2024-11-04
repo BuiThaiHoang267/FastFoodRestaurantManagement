@@ -25,17 +25,12 @@ namespace FastFoodManagement.Model.Models
         [MaxLength(256)]
         public string Password { get; set; } = default!;
 
-        [MaxLength(256)]
-        public string? Location { get; set; }
-
         [MaxLength(15)]
         public string? Phone { get; set; }
 
         [EmailAddress]
         [MaxLength(100)]
         public string? Email { get; set; }
-
-        public DateTime? DateOfBirth { get; set; }
 
         public bool IsActive { get; set; } = true;
 

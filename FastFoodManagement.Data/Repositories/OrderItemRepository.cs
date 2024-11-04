@@ -3,7 +3,7 @@ using FastFoodManagement.Model.Models;
 
 namespace FastFoodManagement.Data.Repositories
 {
-    public interface IOrderItemRepository
+    public interface IOrderItemRepository : IRepository<OrderItem>
     {
         // Add methods here
     }

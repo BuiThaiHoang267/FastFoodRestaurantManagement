@@ -3,7 +3,7 @@ using FastFoodManagement.Model.Models;
 
 namespace FastFoodManagement.Data.Repositories
 {
-    public interface IPaymentMethodRepository
+    public interface IPaymentMethodRepository : IRepository<PaymentMethod>
     {
 
     }

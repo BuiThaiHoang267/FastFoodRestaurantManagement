@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FastFoodManagement.Data.Repositories
 {
-    public interface IBranchRepository
+    public interface IBranchRepository : IRepository<Branch>
     {
         // Add more specific methods here when necessary
     }

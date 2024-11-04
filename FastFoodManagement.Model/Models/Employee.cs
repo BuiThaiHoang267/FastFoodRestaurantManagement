@@ -46,9 +46,6 @@ namespace FastFoodManagement.Model.Models
         // Navigation property to Position
         public virtual Position Position { get; set; } = default!;
 
-        // Navigation property to Order
-        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
         // Navigation property to PurchaseInvoice
         public virtual ICollection<PurchaseInvoice> PurchaseInvoices { get; set; } = new List<PurchaseInvoice>();
     }
