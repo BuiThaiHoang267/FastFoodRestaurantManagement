@@ -22,6 +22,10 @@ namespace FastFoodManagement.Model.Models
         public string ItemType { get; set; } = default!;
 
 		[Required]
+		[MaxLength(50)]
+		public string Status { get; set; } = default!;
+
+		[Required]
         public int Quantity { get; set; }
 
 		[Required]
