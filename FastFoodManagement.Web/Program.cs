@@ -14,6 +14,7 @@ builder.Services.AddDbContext<FastFoodManagementDbContext>(options =>
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 //Dependency Injection
 builder.Services.InfrastructureDJ();

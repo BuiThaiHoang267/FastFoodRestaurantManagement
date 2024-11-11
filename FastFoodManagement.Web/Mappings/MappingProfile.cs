@@ -9,7 +9,9 @@ namespace FastFoodManagement.Web.Mappings
 		public MappingProfile()
 		{
 			CreateMap<Category, CategoryDTO>();
+			CreateMap<CategoryDTO, Category>();
 			CreateMap<Product, ProductDTO>();
+			CreateMap<ProductDTO, Product>();
 		}
 	}
 }

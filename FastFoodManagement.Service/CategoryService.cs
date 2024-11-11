@@ -27,7 +27,8 @@ namespace FastFoodManagement.Service
 		}
 		public void AddCategory(Category category)
 		{
-			throw new NotImplementedException();
+			_categoryRepository.Add(category);
+			SaveChanges();
 		}
 
 		public IEnumerable<Category> GetAllCategories()
