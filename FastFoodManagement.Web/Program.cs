@@ -28,6 +28,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Auto Migration
+using (var scope = app.Services.CreateScope())
+{
+	var dbContext = scope.ServiceProvider.GetRequiredService<FastFoodManagementDbContext>();
+	dbContext.Database.Migrate();
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
