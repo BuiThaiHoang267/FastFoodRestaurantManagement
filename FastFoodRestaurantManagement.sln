@@ -3,17 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastFoodManagement.Web", "FastFoodManagement.Web\FastFoodManagement.Web.csproj", "{351E6D94-2C33-4249-A972-E7AD1ADF7167}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastFoodManagement.Web", "FastFoodManagement.Web\FastFoodManagement.Web.csproj", "{351E6D94-2C33-4249-A972-E7AD1ADF7167}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastFoodManagement.Common", "FastFoodManagement.Common\FastFoodManagement.Common.csproj", "{4EEB8C01-7EFA-4029-9DB3-E7FB2354AC40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastFoodManagement.Common", "FastFoodManagement.Common\FastFoodManagement.Common.csproj", "{4EEB8C01-7EFA-4029-9DB3-E7FB2354AC40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastFoodManagement.Model", "FastFoodManagement.Model\FastFoodManagement.Model.csproj", "{708F90E4-0816-42BD-8803-2784C1D3DF9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastFoodManagement.Model", "FastFoodManagement.Model\FastFoodManagement.Model.csproj", "{708F90E4-0816-42BD-8803-2784C1D3DF9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastFoodManagement.Data", "FastFoodManagement.Data\FastFoodManagement.Data.csproj", "{67877CE9-AF7C-41EB-8C7C-C96E97B56ED1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastFoodManagement.Data", "FastFoodManagement.Data\FastFoodManagement.Data.csproj", "{67877CE9-AF7C-41EB-8C7C-C96E97B56ED1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastFoodManagement.Service", "FastFoodManagement.Service\FastFoodManagement.Service.csproj", "{52C29F06-3201-4A3E-9D64-D267B0974162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastFoodManagement.Service", "FastFoodManagement.Service\FastFoodManagement.Service.csproj", "{52C29F06-3201-4A3E-9D64-D267B0974162}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastFoodManagement.UnitTest", "FastFoodManagement.UnitTest\FastFoodManagement.UnitTest.csproj", "{36C6B096-79FC-49B0-B06F-4438293DCC85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastFoodManagement.UnitTest", "FastFoodManagement.UnitTest\FastFoodManagement.UnitTest.csproj", "{36C6B096-79FC-49B0-B06F-4438293DCC85}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{48E3D051-EB90-42A3-9A51-72C5D4558616}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9BE7DAF7-A470-4FBA-A8AC-C303B83C6FBC}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +53,10 @@ Global
 		{36C6B096-79FC-49B0-B06F-4438293DCC85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36C6B096-79FC-49B0-B06F-4438293DCC85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36C6B096-79FC-49B0-B06F-4438293DCC85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E3D051-EB90-42A3-9A51-72C5D4558616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E3D051-EB90-42A3-9A51-72C5D4558616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E3D051-EB90-42A3-9A51-72C5D4558616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E3D051-EB90-42A3-9A51-72C5D4558616}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
