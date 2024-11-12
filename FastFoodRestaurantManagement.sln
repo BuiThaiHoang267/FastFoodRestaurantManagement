@@ -19,6 +19,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9BE7DAF7-A470-4FBA-A8AC-C303B83C6FBC}"
 	ProjectSection(SolutionItems) = preProject
+		.env = .env
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject

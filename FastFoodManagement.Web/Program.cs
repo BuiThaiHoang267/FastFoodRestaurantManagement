@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews();
 
 // Configure DbContext with connection string
 builder.Services.AddDbContext<FastFoodManagementDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+	options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
