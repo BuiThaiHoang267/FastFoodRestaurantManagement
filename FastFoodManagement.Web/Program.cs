@@ -27,7 +27,16 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
+// Add Configuration CORS
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
 var app = builder.Build();
+
+// Use CORS
+app.UseCors("AllowAll");
 
 // Auto Migration
 using (var scope = app.Services.CreateScope())

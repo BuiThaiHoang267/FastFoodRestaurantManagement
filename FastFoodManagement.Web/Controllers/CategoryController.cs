@@ -27,12 +27,21 @@ namespace FastFoodManagement.Web.Controllers
 		}
 
 		[HttpPost("create")]
-		public async Task<ActionResult<ApiResponse<Category>>> CreateCategory(CategoryDTO categoryDTO)
+		public Task<ActionResult<ApiResponse<Category>>> CreateCategory(CategoryDTO categoryDTO)
 		{
-			var category = _mapper.Map<Category>(categoryDTO);
-			await Task.Run(() => _categoryService.AddCategory(category));
-			ApiResponse<CategoryDTO> response = new ApiResponse<CategoryDTO>("post successfully", categoryDTO);
-			return Ok(response);
+			try
+			{
+				var category = _mapper.Map<Category>(categoryDTO);
+
+				_categoryService.AddCategory(category);
+				ApiResponse<CategoryDTO> response = new ApiResponse<CategoryDTO>("post successfully", categoryDTO);
+				return Task.FromResult<ActionResult<ApiResponse<Category>>>(Ok(response));
+			}
+			catch (Exception ex)
+			{
+				ApiResponse<CategoryDTO> response = new ApiResponse<CategoryDTO>(ex.Message, []);
+				return Task.FromResult<ActionResult<ApiResponse<Category>>>(BadRequest(response));
+			}
 		}
 	}
 }
