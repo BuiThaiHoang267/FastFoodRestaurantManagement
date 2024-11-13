@@ -12,7 +12,7 @@ namespace FastFoodManagement.Service
     public interface ICategoryService
 	{
 		public IEnumerable<Category> GetAllCategories();
-		public Category GetCategoryById(int id);
+		public Task<Category> GetCategoryById(int id);
 		public void AddCategory(Category category);
 		public void SaveChanges();
 	}
@@ -36,9 +36,9 @@ namespace FastFoodManagement.Service
 			return _categoryRepository.GetAll();
 		}
 
-		public Category GetCategoryById(int id)
+		public async Task<Category> GetCategoryById(int id)
 		{
-			return _categoryRepository.GetSingleById(id);
+			return await _categoryRepository.GetSingleById(id);
 		}
 
 		public void SaveChanges()
