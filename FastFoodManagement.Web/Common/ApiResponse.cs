@@ -28,7 +28,7 @@ namespace FastFoodManagement.Web.Common
 			Status = success ? "Ok" : "Error";
 		}
 
-		public static ApiResponse<T> SuccessResponse(T data, string message = "Request succeeded", int code = 200)
+		public static ApiResponse<T> SuccessResponse(T? data, string message = "Request succeeded", int code = 200)
 		{
 			return new ApiResponse<T>
 			{

@@ -14,7 +14,10 @@ namespace FastFoodManagement.Service
     {
         Task<List<Product>> GetByCategory(int categoryId);
         Task<List<Product>> GetAllProducts();
-        void SaveChanges();
+        Task<Product> GetById(int id);
+        Task DeleteById(int id);
+		Task Add(Product product);
+		void SaveChanges();
         Task SuspendSaveChanges();
     }
     public class ProductService : IProductService
@@ -26,7 +29,20 @@ namespace FastFoodManagement.Service
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<List<Product>> GetAllProducts()
+
+		public async Task Add(Product product)
+		{
+			await _productRepository.Add(product);
+            await SuspendSaveChanges();
+		}
+
+		public async Task DeleteById(int id)
+		{
+            await _productRepository.DeleteMulti(p => p.Id == id);
+			await SuspendSaveChanges();
+		}
+
+		public async Task<List<Product>> GetAllProducts()
         {
             return await _productRepository.GetAll().ToListAsync();
         }
@@ -36,7 +52,12 @@ namespace FastFoodManagement.Service
             return await _productRepository.GetByCategory(categoryId);
         }
 
-        public void SaveChanges()
+		public Task<Product> GetById(int id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SaveChanges()
         {
             _unitOfWork.Commit();
         }
