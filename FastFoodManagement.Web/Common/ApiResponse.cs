@@ -20,6 +20,14 @@ namespace FastFoodManagement.Web.Common
 			Errors = new List<string>();
 		}
 
+		public ApiResponse(string message, int code, bool success)
+		{
+			Success = success;
+			Code = code;
+			Message = message;
+			Status = success ? "Ok" : "Error";
+		}
+
 		public static ApiResponse<T> SuccessResponse(T data, string message = "Request succeeded", int code = 200)
 		{
 			return new ApiResponse<T>

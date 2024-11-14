@@ -10,8 +10,8 @@ namespace FastFoodManagement.Data.Infrastructure
 {
     public abstract class RepositoryBase<T> : IRepository<T> where T : class
     {
-        private FastFoodManagementDbContext _context = default!;
-        private readonly DbSet<T> _dbSet;
+        public FastFoodManagementDbContext _context = default!;
+        public readonly DbSet<T> _dbSet;
 
         protected IDbFactory DbFactory
         {

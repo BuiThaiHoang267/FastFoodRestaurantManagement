@@ -15,6 +15,7 @@ namespace FastFoodManagement.Service
 		public Task<List<Category>> GetAllCategories();
 		public Task<Category> GetCategoryById(int id);
 		public Task AddCategory(Category category);
+		public Task DeleteAllCategory();
 		public void SaveChanges();
 		public Task SuspendChanges();
 
@@ -43,6 +44,12 @@ namespace FastFoodManagement.Service
 		public async Task<Category> GetCategoryById(int id)
 		{
 			return await _categoryRepository.GetSingleById(id);
+		}
+
+		public async Task DeleteAllCategory()
+		{
+			await _categoryRepository.DeleteAll();
+			await SuspendChanges();
 		}
 
 		public void SaveChanges()

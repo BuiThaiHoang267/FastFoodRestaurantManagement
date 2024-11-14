@@ -55,5 +55,21 @@ namespace FastFoodManagement.Web.Controllers
 				return BadRequest(response);
 			}
 		}
+
+		[HttpDelete("delete-all")]
+		public async Task<ActionResult> DeleteAllCategory()
+		{
+			try
+			{
+				await _categoryService.DeleteAllCategory();
+				var response = new ApiResponse<CategoryDTO>(message: "Delete All Successfully", code: 200, success: true);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				var response = ApiResponse<CategoryDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
+			}
+		}
 	}
 }
