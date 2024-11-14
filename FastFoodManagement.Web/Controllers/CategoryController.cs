@@ -37,6 +37,23 @@ namespace FastFoodManagement.Web.Controllers
 			}
 		}
 
+		[HttpGet("{id:int}")]
+		public async Task<ActionResult<ApiResponse<CategoryDTO>>> GetCategoryById(int id)
+		{
+			try
+			{
+				var category = await _categoryService.GetCategoryById(id);
+				var categoryDTO = _mapper.Map<CategoryDTO>(category);
+				var response = ApiResponse<CategoryDTO>.SuccessResponse(categoryDTO, code: 200);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				var response = ApiResponse<CategoryDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
+			}
+		}
+
 		[HttpPost("create")]
 		public async Task<ActionResult<ApiResponse<CategoryDTO>>> CreateCategory(CategoryDTO categoryDTO)
 		{

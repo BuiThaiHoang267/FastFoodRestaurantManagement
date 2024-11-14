@@ -41,7 +41,7 @@ namespace FastFoodManagement.Web.Common
 			};
 		}
 
-		public static ApiResponse<T> ErrorResponse(string message, List<string> errors, int code = 400)
+		public static ApiResponse<T> ErrorResponse(string message, List<string>? errors = null, int code = 400)
 		{
 			return new ApiResponse<T>
 			{
