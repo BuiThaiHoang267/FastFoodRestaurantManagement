@@ -12,6 +12,10 @@ namespace FastFoodManagement.Model.Models
 	[Table("ComboItems")]
 	public class ComboItem : Auditable
 	{
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
+
 		[Required]
 		public int ComboId { get; set; }
 
@@ -22,9 +26,7 @@ namespace FastFoodManagement.Model.Models
 		public int Quantity { get; set; } = default!;
 
 		// Navigation property to Combo
-		public virtual Combo Combo { get; set; } = default!;
-
-		// Navigation property to Product
-		public virtual Product Product { get; set; } = default!;
+		[ForeignKey("ComboId")]
+		public virtual Product Combo { get; set; } = default!;
 	}
 }

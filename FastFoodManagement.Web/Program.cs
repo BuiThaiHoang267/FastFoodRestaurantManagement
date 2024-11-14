@@ -8,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//builder.Services.AddDbContext<FastFoodManagementDbContext>(option =>
+//	option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Configure DbContext with connection string
 builder.Services.AddDbContext<FastFoodManagementDbContext>(options =>
 	options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
