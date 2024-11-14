@@ -21,26 +21,38 @@ namespace FastFoodManagement.Web.Controllers
 		}
 
 		[HttpGet("all")]
-		public IEnumerable<Category> GetAllCategories()
+		public async Task<ActionResult<ApiResponse<List<CategoryDTO>>>> GetAllCategories()
 		{
-			return _categoryService.GetAllCategories();
+			try
+			{
+				var categories = await _categoryService.GetAllCategories();
+				var categoryDTOs = _mapper.Map<List<CategoryDTO>>(categories);
+				var response = ApiResponse<List<CategoryDTO>>.SuccessResponse(categoryDTOs, code: 200);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				var response = ApiResponse<CategoryDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
+			}
 		}
 
 		[HttpPost("create")]
-		public Task<ActionResult<ApiResponse<Category>>> CreateCategory(CategoryDTO categoryDTO)
+		public async Task<ActionResult<ApiResponse<CategoryDTO>>> CreateCategory(CategoryDTO categoryDTO)
 		{
 			try
 			{
 				var category = _mapper.Map<Category>(categoryDTO);
 
-				_categoryService.AddCategory(category);
-				ApiResponse<CategoryDTO> response = new ApiResponse<CategoryDTO>("post successfully", categoryDTO);
-				return Task.FromResult<ActionResult<ApiResponse<Category>>>(Ok(response));
+				await _categoryService.AddCategory(category);
+
+				var response = ApiResponse<CategoryDTO>.SuccessResponse(categoryDTO, "Category create successfully", 201);
+				return Ok(response);
 			}
 			catch (Exception ex)
 			{
-				ApiResponse<CategoryDTO> response = new ApiResponse<CategoryDTO>(ex.Message, []);
-				return Task.FromResult<ActionResult<ApiResponse<Category>>>(BadRequest(response));
+				var response = ApiResponse<CategoryDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
 			}
 		}
 	}

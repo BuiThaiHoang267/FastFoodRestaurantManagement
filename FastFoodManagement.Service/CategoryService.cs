@@ -1,6 +1,7 @@
 ﻿using FastFoodManagement.Data.Infrastructure;
 using FastFoodManagement.Data.Repositories;
 using FastFoodManagement.Model.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace FastFoodManagement.Service
 {
     public interface ICategoryService
 	{
-		public IEnumerable<Category> GetAllCategories();
+		public Task<List<Category>> GetAllCategories();
 		public Task<Category> GetCategoryById(int id);
-		public void AddCategory(Category category);
+		public Task AddCategory(Category category);
 		public void SaveChanges();
+		public Task SuspendChanges();
+
 	}
 	public class CategoryService : ICategoryService
 	{
@@ -25,15 +28,16 @@ namespace FastFoodManagement.Service
 			_categoryRepository = categoryRepository;
 			_unitOfWork = unitOfWork;
 		}
-		public void AddCategory(Category category)
+		public async Task AddCategory(Category category)
 		{
-			_categoryRepository.Add(category);
-			SaveChanges();
+			await _categoryRepository.Add(category);
+			await SuspendChanges();
 		}
 
-		public IEnumerable<Category> GetAllCategories()
+		public async Task<List<Category>> GetAllCategories()
 		{
-			return _categoryRepository.GetAll();
+			List<Category> entity = await _categoryRepository.GetAll().ToListAsync();
+			return entity;
 		}
 
 		public async Task<Category> GetCategoryById(int id)
@@ -44,6 +48,11 @@ namespace FastFoodManagement.Service
 		public void SaveChanges()
 		{
 			_unitOfWork.Commit();
+		}
+
+		public async Task SuspendChanges()
+		{
+			 await _unitOfWork.CommitAsync();
 		}
 	}
 }
