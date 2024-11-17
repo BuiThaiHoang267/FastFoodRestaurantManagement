@@ -94,19 +94,19 @@ VALUES
 -- Category 2
 INSERT INTO Products (Type, Name, CostPrice, Price, Image, CategoryId)
 VALUES
-( 'Combo', N'2 GÀ GIÒN VUI VẺ + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 60000, 91000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_gi_n_vui_v_-_1_1.png', 2),
-( 'Combo', N'1 GÀ GIÒN VUI VẺ + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 38000, 58000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_gi_n_vui_v_-_2.png', 2),
-( 'Combo', N'1 CƠM GÀ GIÒN VUI VẺ + 1 SÚP BÍ ĐỎ + 1 NƯỚC NGỌT', 40000, 63000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_gi_n_vui_v_-_3.png', 2),
-( 'Combo', N'1 CƠM GÀ GIÒN VUI VẺ + 1 NƯỚC NGỌT', 40000, 58000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_gi_n_vui_v_-_4.png', 2);
+( 'Combo', N'2 GÀ GIÒN + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC', 60000, 91000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_gi_n_vui_v_-_1_1.png', 2),
+( 'Combo', N'1 GÀ GIÒN + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC', 38000, 58000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_gi_n_vui_v_-_2.png', 2),
+( 'Combo', N'1 CƠM GÀ GIÒN + 1 SÚP BÍ ĐỎ + 1 NƯỚC', 40000, 63000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_gi_n_vui_v_-_3.png', 2),
+( 'Combo', N'1 CƠM GÀ GIÒN + 1 NƯỚC NGỌT', 40000, 58000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_gi_n_vui_v_-_4.png', 2);
 
 -- Category 3
 INSERT INTO Products (Type, Name, CostPrice, Price, Image, CategoryId)
 VALUES
-( 'Combo', N'1 MÌ Ý JOLLY VỪA + 1 GÀ GIÒN VUI VẺ + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 60000, 93000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/m/_/m_jolly_-_1-compressed.jpg', 3),
-( 'Combo', N'1 MÌ Ý JOLLY VỪA + 2 GÀ KHÔNG XƯƠNG + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 55000, 80000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/m/_/m_jolly_-_2-compressed.jpg', 3),
-( 'Combo', N'1 MÌ Ý JOLLY VỪA + 2 GÀ KHÔNG XƯƠNG + 1 NƯỚC NGỌT', 50000, 70000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/m/_/m_jolly_-_3.png', 3),
-( 'Combo', N'1 MÌ Ý JOLLY VỪA + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 45000, 60000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/m/_/m_jolly_-_4-compressed_1.jpg', 3),
-( 'Combo', N'1 MÌ Ý JOLLY VỪA + 1 NƯỚC NGỌT', 30000, 45000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/m/_/m_jolly_-_5-compressed_1.jpg', 3);
+( 'Combo', N'1 MÌ Ý JOLLY VỪA + 1 GÀ GIÒN + 1 KTC VỪA + 1 NƯỚC', 60000, 93000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/m/_/m_jolly_-_1-compressed.jpg', 3),
+( 'Combo', N'1 MÌ Ý JOLLY VỪA + 2 GÀ KX + 1 KTC VỪA + 1 NƯỚC', 55000, 80000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/m/_/m_jolly_-_2-compressed.jpg', 3),
+( 'Combo', N'1 MÌ Ý JOLLY VỪA + 2 GÀ KX + 1 NƯỚC', 50000, 70000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/m/_/m_jolly_-_3.png', 3),
+( 'Combo', N'1 MÌ Ý JOLLY VỪA + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC', 45000, 60000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/m/_/m_jolly_-_4-compressed_1.jpg', 3),
+( 'Combo', N'1 MÌ Ý JOLLY VỪA + 1 NƯỚC', 30000, 45000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/m/_/m_jolly_-_5-compressed_1.jpg', 3);
 
 -- Category 4
 INSERT INTO Products (Type, Name, CostPrice, Price, Image, CategoryId)
@@ -119,24 +119,11 @@ VALUES
 -- Category 5
 INSERT INTO Products (Type, Name, CostPrice, Price, Image, CategoryId)
 VALUES
-( 'Combo', N'2 GÀ SỐT CAY + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 65000, 95000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_1-compressed.jpg', 4),
-( 'Combo', N'1 GÀ SỐT CAY + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 40000, 60000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_2-compressed.jpg', 4),
-( 'Combo', N'1 CƠM GÀ SỐT CAY + 1 SÚP BÍ ĐỎ + 1 NƯỚC NGỌT', 45000, 65000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_3-compressed.jpg', 4),
--- Category 4
-INSERT INTO Products (Type, Name, CostPrice, Price, Image, CategoryId)
-VALUES
-( 'Combo', N'2 GÀ SỐT CAY + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 65000, 95000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_1-compressed.jpg', 4),
-( 'Combo', N'1 GÀ SỐT CAY + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 40000, 60000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_2-compressed.jpg', 4),
-( 'Combo', N'1 CƠM GÀ SỐT CAY + 1 SÚP BÍ ĐỎ + 1 NƯỚC NGỌT', 45000, 65000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_3-compressed.jpg', 4),
-( 'Combo', N'1 CƠM GÀ SỐT CAY + 1 NƯỚC NGỌT', 45000, 60000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_4-compressed.jpg', 4);
--- Category 4
-INSERT INTO Products (Type, Name, CostPrice, Price, Image, CategoryId)
-VALUES
-( 'Combo', N'1 CƠM GÀ MẮM TỎI + 1 PEPSI VỪA', 25000, 40000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_1-compressed.jpg', 5),
-( 'Combo', N'1 BURGER TÔM + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 40000, 65000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_2-compressed.jpg', 5),
-( 'Combo', N'1 BURGER TÔM + 1 NƯỚC NGỌT', 35000, 50000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_3-compressed.jpg', 5),
-( 'Combo', N'1 JOLLY HOTDOG + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 35000, 50000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_4-compressed.jpg', 5),
-( 'Combo', N'1 JOLLY HOTDOG + 1 NƯỚC NGỌT', 20000, 35000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_4-compressed.jpg', 5),
-( 'Combo', N'1 SANDWICH GÀ GIÒN + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC NGỌT', 40000, 55000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_4-compressed.jpg', 5),
-( 'Combo', N'1 SANDWICH GÀ GIÒN + 1 NƯỚC NGỌT', 25000, 40000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/g/_/g_s_t_cay_-_4-compressed.jpg', 5);
+( 'Combo', N'1 CƠM GÀ MẮM TỎI + 1 PEPSI VỪA', 25000, 40000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/6/0/603ead39c9e46eba37f5.jpg', 5),
+( 'Combo', N'1 BURGER TÔM + 1 KHOAI TÂY CHIÊN VỪA + 1 NƯỚC', 40000, 65000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/b/u/burger_-_1.png', 5),
+( 'Combo', N'1 BURGER TÔM + 1 NƯỚC NGỌT', 35000, 50000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/b/u/burger_-_2.png', 5),
+( 'Combo', N'1 JOLLY HOTDOG + 1 KTC VỪA + 1 NƯỚC', 35000, 50000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/b/u/burger_-_3.png', 5),
+( 'Combo', N'1 JOLLY HOTDOG + 1 NƯỚC NGỌT', 20000, 35000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/b/u/burger_-_4.png', 5),
+( 'Combo', N'1 SANDWICH GÀ GIÒN + 1 KTC VỪA + 1 NƯỚC', 40000, 55000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/b/u/burger_-_5.png', 5),
+( 'Combo', N'1 SANDWICH GÀ GIÒN + 1 NƯỚC NGỌT', 25000, 40000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/b/u/burger_-_6.png', 5);
 
