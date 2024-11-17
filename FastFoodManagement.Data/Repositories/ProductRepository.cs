@@ -7,6 +7,7 @@ namespace FastFoodManagement.Data.Repositories
     public interface IProductRepository : IRepository<Product>
     {
         Task<List<Product>> GetByCategory(int categoryId);
+        Task DeleteAll();
     }
     public class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
@@ -14,6 +15,11 @@ namespace FastFoodManagement.Data.Repositories
         {
 
         }
+
+		public async Task DeleteAll()
+		{
+		    await _dbSet.ExecuteDeleteAsync();
+		}
 
 		public async Task<List<Product>> GetByCategory(int categoryId)
 		{

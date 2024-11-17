@@ -19,6 +19,7 @@ namespace FastFoodManagement.Service
 		Task Add(Product product);
 		void SaveChanges();
         Task SuspendSaveChanges();
+        Task DeleteAll();
     }
     public class ProductService : IProductService
     {
@@ -34,6 +35,12 @@ namespace FastFoodManagement.Service
 		{
 			await _productRepository.Add(product);
             await SuspendSaveChanges();
+		}
+
+		public async Task DeleteAll()
+		{
+			await _productRepository.DeleteAll();
+			await SuspendSaveChanges();
 		}
 
 		public async Task DeleteById(int id)
