@@ -29,7 +29,6 @@ namespace FastFoodManagement.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<User> Users { get; set; }
-		public DbSet<Combo> Combos { get; set; }
 		public DbSet<ComboItem> ComboItems { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,10 +36,6 @@ namespace FastFoodManagement.Data
             // Define composite primary key for PurchaseInvoiceItem
             modelBuilder.Entity<PurchaseInvoiceItem>()
                 .HasKey(pii => new { pii.PurchaseInvoiceId, pii.IngredientId });
-
-			// Define composite primary key for ComboItem
-			modelBuilder.Entity<ComboItem>()
-				.HasKey(ci => new { ci.ComboId, ci.ProductId });
             
             modelBuilder.Entity<PurchaseInvoice>()
                 .HasOne(o => o.Employee)
@@ -54,19 +49,7 @@ namespace FastFoodManagement.Data
                 .HasForeignKey(o => o.SupplierId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<ComboItem>()
-                .HasOne(ci => ci.Combo)
-				.WithMany(c => c.ComboItems)
-				.HasForeignKey(ci => ci.ComboId)
-				.OnDelete(DeleteBehavior.NoAction);
-
-			modelBuilder.Entity<ComboItem>()
-				.HasOne(ci => ci.Product)
-				.WithMany(p => p.ComboItems)
-				.HasForeignKey(ci => ci.ProductId)
-				.OnDelete(DeleteBehavior.NoAction);
-
-			// Additional model configuration here
-		}
+            // Additional model configuration here
+        }
     }
 }

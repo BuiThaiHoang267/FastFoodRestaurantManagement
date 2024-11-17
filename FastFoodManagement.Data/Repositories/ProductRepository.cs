@@ -1,13 +1,13 @@
 ﻿using FastFoodManagement.Data.Infrastructure;
 using FastFoodManagement.Model.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodManagement.Data.Repositories
 {
     public interface IProductRepository : IRepository<Product>
     {
-        // Add more specific methods here when necessary
-        // Get product by category
-        IQueryable<Product> GetByCategory(int categoryId);
+        Task<List<Product>> GetByCategory(int categoryId);
+        Task DeleteAll();
     }
     public class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
@@ -16,9 +16,15 @@ namespace FastFoodManagement.Data.Repositories
 
         }
 
-        public IQueryable<Product> GetByCategory(int categoryId)
-        {
-            return this.DbContext.Products.Where(p => p.CategoryId == categoryId);
-        }
-    }
+		public async Task DeleteAll()
+		{
+		    await _dbSet.ExecuteDeleteAsync();
+		}
+
+		public async Task<List<Product>> GetByCategory(int categoryId)
+		{
+            var products = await GetMulti(p => p.CategoryId == categoryId).ToListAsync();
+            return products;
+		}
+	}
 }

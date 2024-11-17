@@ -10,8 +10,8 @@ namespace FastFoodManagement.Data.Infrastructure
 {
     public abstract class RepositoryBase<T> : IRepository<T> where T : class
     {
-        private FastFoodManagementDbContext _context = default!;
-        private readonly DbSet<T> _dbSet;
+        public FastFoodManagementDbContext _context = default!;
+        public readonly DbSet<T> _dbSet;
 
         protected IDbFactory DbFactory
         {
@@ -33,37 +33,45 @@ namespace FastFoodManagement.Data.Infrastructure
             _dbSet = DbContext.Set<T>();
         }
 
-        public void Add(T entity)
+        public async Task Add(T entity)
         {
-            _dbSet.Add(entity);
+            await _dbSet.AddAsync(entity);
         }
 
-        public void Update(T entity)
+        public async Task Update(T entity)
         {
             _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
-        }
+			_context.Entry(entity).State = EntityState.Modified;
+			await Task.CompletedTask;
+		}
 
-        public void Delete(T entity)
-        {
-            _dbSet.Remove(entity);
-        }
+		public async Task Delete(T entity)
+		{
+			_dbSet.Remove(entity);
+			await Task.CompletedTask;
+		}
 
-        public void DeleteMulti(Expression<Func<T, bool>> where)
+        public async Task DeleteMulti(Expression<Func<T, bool>> where)
         {
             var entities = _dbSet.Where(where).ToList();
             foreach (var entity in entities)
             {
                 _dbSet.Remove(entity);
             }
-        }
+			await Task.CompletedTask;
+		}
 
-        public T GetSingleById(int id)
+        public async Task<T> GetSingleById(int id)
         {
-            return _dbSet.Find(id)!;
-        }
+			T? entity = await _dbSet.FindAsync(id);
+            if(entity == null)
+            {
+                throw new KeyNotFoundException($"Entity with ID {id} was not found");
+			}
+			return entity;
+		}
 
-        public T GetSingleByCondition(Expression<Func<T, bool>> expression, string[]? includes = null)
+        public async Task<T> GetSingleByCondition(Expression<Func<T, bool>> expression, string[]? includes = null)
         {
             IQueryable<T> query = _dbSet;
 
@@ -75,11 +83,16 @@ namespace FastFoodManagement.Data.Infrastructure
                 }
             }
 
-            return query.FirstOrDefault(expression)!;
-        }
+            T? entity = await query.FirstOrDefaultAsync(expression);
+            if (entity == null)
+            {
+                throw new Exception("Entity was not found");
+            }
+			return entity;
+		}
 
         public IQueryable<T> GetAll(string[]? includes = null)
-        {
+        { 
             IQueryable<T> query = _dbSet;
 
             if (includes != null)
@@ -91,7 +104,7 @@ namespace FastFoodManagement.Data.Infrastructure
             }
 
             return query;
-        }
+		}
 
         public IQueryable<T> GetMulti(Expression<Func<T, bool>> expression, string[]? includes = null)
         {
@@ -123,14 +136,14 @@ namespace FastFoodManagement.Data.Infrastructure
             return query.Skip((page - 1) * pageSize).Take(pageSize);
         }
 
-        public int Count(Expression<Func<T, bool>> expression)
-        {
-            return _dbSet.Count(expression);
-        }
+		public async Task<int> Count(Expression<Func<T, bool>> expression)
+		{
+			return await Task.FromResult(_dbSet.Count(expression));
+		}
 
-        public bool CheckContains(Expression<Func<T, bool>> expression)
-        {
-            return _dbSet.Any(expression);
-        }
+		public async Task<bool> CheckContains(Expression<Func<T, bool>> expression)
+		{
+			return await Task.FromResult(_dbSet.Any(expression));
+		}
     }
 }

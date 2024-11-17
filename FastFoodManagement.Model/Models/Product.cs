@@ -19,11 +19,15 @@ namespace FastFoodManagement.Model.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
-        [MaxLength(256)]
+		[Required]
+		[Column(TypeName = "decimal(18,2)")]
+		public decimal CostPrice { get; set; }
+
+		[MaxLength(256)]
         public string? Image { get; set; }
 
         [Required]
-        public string Type { get; set; } = "Product";
+        public string Type { get; set; } = default!;
 
 		[Required]
         [ForeignKey("Category")]

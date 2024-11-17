@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FastFoodManagement.Data.Migrations
 {
     [DbContext(typeof(FastFoodManagementDbContext))]
-    [Migration("20241112074251_db0.0.1")]
+    [Migration("20241114144013_db0.0.1")]
     partial class db001
     {
         /// <inheritdoc />
@@ -110,7 +110,7 @@ namespace FastFoodManagement.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("FastFoodManagement.Model.Models.Combo", b =>
+            modelBuilder.Entity("FastFoodManagement.Model.Models.ComboItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,55 +118,9 @@ namespace FastFoodManagement.Data.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Image")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Combos");
-                });
-
-            modelBuilder.Entity("FastFoodManagement.Model.Models.ComboItem", b =>
-                {
                     b.Property<int>("ComboId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -175,6 +129,9 @@ namespace FastFoodManagement.Data.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -185,9 +142,9 @@ namespace FastFoodManagement.Data.Migrations
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
 
-                    b.HasKey("ComboId", "ProductId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ComboId");
 
                     b.ToTable("ComboItems");
                 });
@@ -484,6 +441,9 @@ namespace FastFoodManagement.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("CostPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -767,34 +727,15 @@ namespace FastFoodManagement.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("FastFoodManagement.Model.Models.Combo", b =>
+            modelBuilder.Entity("FastFoodManagement.Model.Models.ComboItem", b =>
                 {
-                    b.HasOne("FastFoodManagement.Model.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("FastFoodManagement.Model.Models.Product", "Combo")
+                        .WithMany("ComboItems")
+                        .HasForeignKey("ComboId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("FastFoodManagement.Model.Models.ComboItem", b =>
-                {
-                    b.HasOne("FastFoodManagement.Model.Models.Combo", "Combo")
-                        .WithMany("ComboItems")
-                        .HasForeignKey("ComboId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("FastFoodManagement.Model.Models.Product", "Product")
-                        .WithMany("ComboItems")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.Navigation("Combo");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastFoodManagement.Model.Models.Employee", b =>
@@ -945,11 +886,6 @@ namespace FastFoodManagement.Data.Migrations
             modelBuilder.Entity("FastFoodManagement.Model.Models.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("FastFoodManagement.Model.Models.Combo", b =>
-                {
-                    b.Navigation("ComboItems");
                 });
 
             modelBuilder.Entity("FastFoodManagement.Model.Models.Employee", b =>

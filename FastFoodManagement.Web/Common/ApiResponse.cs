@@ -1,4 +1,6 @@
-﻿namespace FastFoodManagement.Web.Common
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace FastFoodManagement.Web.Common
 {
 	public class ApiResponse<T>
 	{
@@ -9,24 +11,47 @@
 		public T? Data { get; set; }
 		public List<string>? Errors { get; set; }
 
-		public ApiResponse(string message, T data, bool success = true, int code = 200)
+		public ApiResponse() 
 		{
-			Status = success ? "OK" : "Error";
-			Code = code;
-			Success = success;
-			Message = message;
-			Data = data;
-			Errors = null;
+			Success = false;
+			Code = 0;
+			Message = "";
+			Status = "";
+			Errors = new List<string>();
 		}
 
-		public ApiResponse(string message, List<string> errors, bool success = false, int code = 400)
+		public ApiResponse(string message, int code, bool success)
 		{
-			Status = success ? "OK" : "Error";
-			Code = code;
 			Success = success;
+			Code = code;
 			Message = message;
-			Data = default;
-			Errors = errors;
+			Status = success ? "Ok" : "Error";
+		}
+
+		public static ApiResponse<T> SuccessResponse(T? data, string message = "Request succeeded", int code = 200)
+		{
+			return new ApiResponse<T>
+			{
+				Status = "OK",
+				Code = code,
+				Success = true,
+				Message = message,
+				Data = data,
+				Errors = null
+			};
+		}
+
+		public static ApiResponse<T> ErrorResponse(string message, List<string>? errors = null, int code = 400)
+		{
+			return new ApiResponse<T>
+			{
+				Status = "Error",
+				Code = code,
+				Success = false,
+				Message = message,
+				Data = default,
+				Errors = errors ?? new List<string>()
+			};
 		}
 	}
 }
