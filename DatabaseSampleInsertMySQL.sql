@@ -127,3 +127,8 @@ VALUES
 ( 'Combo', N'1 SANDWICH GÀ GIÒN + 1 KTC VỪA + 1 NƯỚC', 40000, 55000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/b/u/burger_-_5.png', 5),
 ( 'Combo', N'1 SANDWICH GÀ GIÒN + 1 NƯỚC NGỌT', 25000, 40000, 'https://jollibee.com.vn/media/catalog/product/cache/9011257231b13517d19d9bae81fd87cc/b/u/burger_-_6.png', 5);
 
+-- ComboItem
+INSERT INTO ComboItems (ComboId, ProductId, Quantity)
+VALUES
+()
+

@@ -104,5 +104,23 @@ namespace FastFoodManagement.Web.Controllers
 				return BadRequest(response);
 			}
 		}
+
+		// Get Product with Type Product
+		[HttpGet("type-product")]
+		public async Task<ActionResult<List<ProductDTO>>> GetTypeIsProduct()
+		{
+			try
+			{
+				var products = await _productService.GetTypeProduct();
+				var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(productDTOs);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				var response = ApiResponse<ProductDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
+			}
+		}
 	}
 }

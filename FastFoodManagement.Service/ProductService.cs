@@ -15,6 +15,7 @@ namespace FastFoodManagement.Service
         Task<List<Product>> GetByCategory(int categoryId);
         Task<List<Product>> GetAllProducts();
         Task<Product> GetById(int id);
+        Task<List<Product>> GetTypeProduct();
         Task DeleteById(int id);
 		Task Add(Product product);
 		void SaveChanges();
@@ -51,7 +52,7 @@ namespace FastFoodManagement.Service
 
 		public async Task<List<Product>> GetAllProducts()
         {
-            return await _productRepository.GetAll().ToListAsync();
+            return await _productRepository.GetAll(new[] { "ComboItems" }).ToListAsync();
         }
 
         public async Task<List<Product>> GetByCategory(int categoryId)
@@ -62,6 +63,12 @@ namespace FastFoodManagement.Service
 		public Task<Product> GetById(int id)
 		{
 			throw new NotImplementedException();
+		}
+
+		public async Task<List<Product>> GetTypeProduct()
+		{
+            var data = await _productRepository.GetAll().Where(p => p.Type == "Product").ToListAsync();
+			return data;
 		}
 
 		public void SaveChanges()
