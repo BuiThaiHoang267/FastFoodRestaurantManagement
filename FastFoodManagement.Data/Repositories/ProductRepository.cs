@@ -7,7 +7,7 @@ namespace FastFoodManagement.Data.Repositories
     public interface IProductRepository : IRepository<Product>
     {
         Task<List<Product>> GetByCategory(int categoryId);
-        Task DeleteAll();
+		Task DeleteAll();
     }
     public class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
