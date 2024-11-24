@@ -36,8 +36,11 @@ namespace FastFoodManagement.Model.Models
         // Navigation property to Category
         public virtual Category Category { get; set; } = default!;
 
-		// Navvigation property to ComboItem
+		// Navigation property to ComboItem
 		public virtual ICollection<ComboItem> ComboItems { get; set; } = new List<ComboItem>();
+
+		// Navigation property to Product in ComboItem
+		public virtual ICollection<ComboItem> ProductInComboItems { get; set; } = new List<ComboItem>();
 
 		// Navigation property to OrderItem
 		public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FastFoodManagement.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class databaseV010 : Migration
+    public partial class dbV001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -369,6 +369,12 @@ namespace FastFoodManagement.Data.Migrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ComboItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -482,6 +488,11 @@ namespace FastFoodManagement.Data.Migrations
                 name: "IX_ComboItems_ComboId",
                 table: "ComboItems",
                 column: "ComboId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComboItems_ProductId",
+                table: "ComboItems",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_BranchId",

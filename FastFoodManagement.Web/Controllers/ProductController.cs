@@ -2,7 +2,7 @@
 using FastFoodManagement.Model.Models;
 using FastFoodManagement.Service;
 using FastFoodManagement.Web.Common;
-using FastFoodManagement.Web.ViewModels;
+using FastFoodManagement.Data.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,9 +26,8 @@ namespace FastFoodManagement.Web.Controllers
 		{
 			try
 			{
-				var products = await _productService.GetAllProducts();
-				var productDTOs = _mapper.Map<List<ProductDTO>>(products);
-				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(productDTOs);
+				var products = await _productService.GetAllDetail();
+				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(products);
 				return Ok(response);
 			}
 			catch (Exception ex) 
@@ -44,8 +43,7 @@ namespace FastFoodManagement.Web.Controllers
 			try
 			{
 				var products = await _productService.GetByCategory(categoryId);
-				var productDTOs = _mapper.Map<List<ProductDTO>>(products);
-				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(productDTOs);
+				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(products);
 				return Ok(response);
 			}
 			catch (Exception ex)

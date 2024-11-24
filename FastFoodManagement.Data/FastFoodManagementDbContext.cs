@@ -49,7 +49,17 @@ namespace FastFoodManagement.Data
                 .HasForeignKey(o => o.SupplierId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // Additional model configuration here
+            modelBuilder.Entity<ComboItem>()
+                .HasOne(ci => ci.Combo)
+                .WithMany(ci => ci.ComboItems)
+                .HasForeignKey(ci => ci.ComboId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ComboItem>()
+                .HasOne(ci => ci.Product)
+                .WithMany(ci => ci.ProductInComboItems)
+                .HasForeignKey(ci => ci.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

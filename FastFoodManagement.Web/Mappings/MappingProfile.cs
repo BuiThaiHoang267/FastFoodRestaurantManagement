@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FastFoodManagement.Model.Models;
-using FastFoodManagement.Web.DTO;
-using FastFoodManagement.Web.ViewModels;
+using FastFoodManagement.Data.DTO;
 
 namespace FastFoodManagement.Web.Mappings
 {
@@ -12,7 +11,8 @@ namespace FastFoodManagement.Web.Mappings
 			CreateMap<Category, CategoryDTO>();
 			CreateMap<CategoryDTO, Category>();
 
-			CreateMap<Product, ProductDTO>();
+			CreateMap<Product, ProductDTO>()
+				.ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
 			CreateMap<ProductDTO, Product>();
 
 			CreateMap<ComboItem,ComboItemDTO>();

@@ -1,4 +1,5 @@
-﻿using FastFoodManagement.Data.Infrastructure;
+﻿using FastFoodManagement.Data.DTO;
+using FastFoodManagement.Data.Infrastructure;
 using FastFoodManagement.Data.Repositories;
 using FastFoodManagement.Model.Models;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,8 @@ namespace FastFoodManagement.Service
 {
     public interface IProductService
     {
-        Task<List<Product>> GetByCategory(int categoryId);
+        Task<List<ProductDTO>> GetAllDetail();
+        Task<List<ProductDTO>> GetByCategory(int categoryId);
         Task<List<Product>> GetAllProducts();
         Task<Product> GetById(int id);
         Task<List<Product>> GetTypeProduct();
@@ -26,7 +28,7 @@ namespace FastFoodManagement.Service
     {
         private IProductRepository _productRepository;
         private IUnitOfWork _unitOfWork;
-        public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork) 
+		public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork) 
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
@@ -50,12 +52,17 @@ namespace FastFoodManagement.Service
 			await SuspendSaveChanges();
 		}
 
+		public async Task<List<ProductDTO>> GetAllDetail()
+		{
+			return await _productRepository.GetAllDetail().ToListAsync();
+		}
+
 		public async Task<List<Product>> GetAllProducts()
         {
-            return await _productRepository.GetAll(new[] { "ComboItems" }).ToListAsync();
+            return await _productRepository.GetAll(new[] { "Category", "ComboItems" }).ToListAsync();
         }
 
-        public async Task<List<Product>> GetByCategory(int categoryId)
+        public async Task<List<ProductDTO>> GetByCategory(int categoryId)
         {
             return await _productRepository.GetByCategory(categoryId);
         }
