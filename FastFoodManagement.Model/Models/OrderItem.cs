@@ -16,10 +16,7 @@ namespace FastFoodManagement.Model.Models
 		public int OrderId { get; set; }
 
         [Required]
-        public int ItemId { get; set; }
-
-        [Required]
-        public string ItemType { get; set; } = default!;
+        public int ProductId { get; set; }
 
 		[Required]
 		[MaxLength(50)]
@@ -34,5 +31,8 @@ namespace FastFoodManagement.Model.Models
 
         //Navigation property to Order
         public virtual Order Order { get; set; } = default!;
+
+		//Navigation property to Product
+		public virtual Product Product { get; set; } = default!;
 	}
 }

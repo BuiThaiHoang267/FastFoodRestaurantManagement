@@ -323,14 +323,10 @@ namespace FastFoodManagement.Data.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("ItemId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ItemType")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("OrderId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -353,6 +349,8 @@ namespace FastFoodManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
                 });
@@ -779,7 +777,15 @@ namespace FastFoodManagement.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FastFoodManagement.Model.Models.Product", "Product")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastFoodManagement.Model.Models.Product", b =>
@@ -913,6 +919,8 @@ namespace FastFoodManagement.Data.Migrations
             modelBuilder.Entity("FastFoodManagement.Model.Models.Product", b =>
                 {
                     b.Navigation("ComboItems");
+
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("FastFoodManagement.Model.Models.PurchaseInvoice", b =>

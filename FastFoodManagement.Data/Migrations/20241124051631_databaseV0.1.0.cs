@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FastFoodManagement.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class db001 : Migration
+    public partial class databaseV010 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -379,9 +379,7 @@ namespace FastFoodManagement.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     OrderId = table.Column<int>(type: "int", nullable: false),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
-                    ItemType = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
@@ -399,6 +397,12 @@ namespace FastFoodManagement.Data.Migrations
                         name: "FK_OrderItems_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -495,6 +499,11 @@ namespace FastFoodManagement.Data.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_ProductId",
+                table: "OrderItems",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_BranchId",
                 table: "Orders",
                 column: "BranchId");
@@ -567,10 +576,10 @@ namespace FastFoodManagement.Data.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Ingredients");
@@ -582,10 +591,10 @@ namespace FastFoodManagement.Data.Migrations
                 name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "PaymentMethods");
 
             migrationBuilder.DropTable(
-                name: "PaymentMethods");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Employees");
