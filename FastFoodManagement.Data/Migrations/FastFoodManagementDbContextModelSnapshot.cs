@@ -143,6 +143,8 @@ namespace FastFoodManagement.Data.Migrations
 
                     b.HasIndex("ComboId");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("ComboItems");
                 });
 
@@ -730,7 +732,15 @@ namespace FastFoodManagement.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FastFoodManagement.Model.Models.Product", "Product")
+                        .WithMany("ProductInComboItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Combo");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastFoodManagement.Model.Models.Employee", b =>
@@ -921,6 +931,8 @@ namespace FastFoodManagement.Data.Migrations
                     b.Navigation("ComboItems");
 
                     b.Navigation("OrderItems");
+
+                    b.Navigation("ProductInComboItems");
                 });
 
             modelBuilder.Entity("FastFoodManagement.Model.Models.PurchaseInvoice", b =>

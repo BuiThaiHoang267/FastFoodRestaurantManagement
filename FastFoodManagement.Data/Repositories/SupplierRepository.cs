@@ -5,7 +5,7 @@ namespace FastFoodManagement.Data.Repositories
 {
     public interface ISupplierRepository : IRepository<Supplier>
     {
-
+        
     }
     public class SupplierRepository : RepositoryBase<Supplier>, ISupplierRepository
     {

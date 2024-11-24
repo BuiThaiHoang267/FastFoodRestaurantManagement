@@ -1,4 +1,4 @@
-﻿namespace FastFoodManagement.Web.ViewModels
+﻿namespace FastFoodManagement.Data.DTO
 {
 	public class CategoryDTO
 	{

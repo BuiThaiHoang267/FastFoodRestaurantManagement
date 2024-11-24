@@ -28,5 +28,9 @@ namespace FastFoodManagement.Model.Models
 		// Navigation property to Combo
 		[ForeignKey("ComboId")]
 		public virtual Product Combo { get; set; } = default!;
+
+		// Navigation property to Product
+		[ForeignKey("ProductId")]
+		public virtual Product Product { get; set; } = default!;
 	}
 }

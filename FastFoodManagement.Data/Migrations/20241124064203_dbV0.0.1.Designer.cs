@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FastFoodManagement.Data.Migrations
 {
     [DbContext(typeof(FastFoodManagementDbContext))]
-    [Migration("20241124051631_databaseV0.1.0")]
-    partial class databaseV010
+    [Migration("20241124064203_dbV0.0.1")]
+    partial class dbV001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,6 +145,8 @@ namespace FastFoodManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ComboId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ComboItems");
                 });
@@ -733,7 +735,15 @@ namespace FastFoodManagement.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FastFoodManagement.Model.Models.Product", "Product")
+                        .WithMany("ProductInComboItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Combo");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastFoodManagement.Model.Models.Employee", b =>
@@ -924,6 +934,8 @@ namespace FastFoodManagement.Data.Migrations
                     b.Navigation("ComboItems");
 
                     b.Navigation("OrderItems");
+
+                    b.Navigation("ProductInComboItems");
                 });
 
             modelBuilder.Entity("FastFoodManagement.Model.Models.PurchaseInvoice", b =>
