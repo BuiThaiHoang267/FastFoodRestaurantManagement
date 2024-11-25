@@ -53,6 +53,22 @@ namespace FastFoodManagement.Web.Controllers
 			}
 		}
 
+		[HttpGet]
+		public async Task<ActionResult<List<ProductDTO>>> GetProductByFilter(string? name, string? categories)
+		{
+			try
+			{
+				var products = await _productService.GetDetailByFilter(name, categories);
+				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(products);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				var response = ApiResponse<ProductDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
+			}
+		}
+
 		[HttpPost("create")]
 		public async Task<ActionResult<ProductDTO>> CreateProduct(ProductDTO productDTO)
 		{

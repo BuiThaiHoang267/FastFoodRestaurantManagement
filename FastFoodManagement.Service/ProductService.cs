@@ -14,7 +14,8 @@ namespace FastFoodManagement.Service
     public interface IProductService
     {
         Task<List<ProductDTO>> GetAllDetail();
-        Task<List<ProductDTO>> GetByCategory(int categoryId);
+		Task<List<ProductDTO>> GetDetailByFilter(string? name, string? categories);
+		Task<List<ProductDTO>> GetByCategory(int categoryId);
         Task<List<Product>> GetAllProducts();
         Task<Product> GetById(int id);
         Task<List<Product>> GetTypeProduct();
@@ -70,6 +71,23 @@ namespace FastFoodManagement.Service
 		public Task<Product> GetById(int id)
 		{
 			throw new NotImplementedException();
+		}
+
+		public async Task<List<ProductDTO>> GetDetailByFilter(string? name, string? categories)
+		{
+			var query = _productRepository.GetAllDetail();
+			if (!string.IsNullOrEmpty(name))
+			{
+				query = query.Where(p => p.Name.ToLower().Contains(name));
+			}
+
+			if (!string.IsNullOrEmpty(categories))
+			{
+				var categoryIds = categories.Split(',').Select(int.Parse).ToList();
+				query = query.Where(p => categoryIds.Contains(p.CategoryId));
+			}
+
+			return await query.ToListAsync();
 		}
 
 		public async Task<List<Product>> GetTypeProduct()
