@@ -22,12 +22,12 @@ namespace FastFoodManagement.Web.Controllers
 		}
 
 		[HttpGet("all")]
-		public async Task<ActionResult<List<ProductDTO>>> GetAllProduct()
+		public async Task<ActionResult<List<Product>>> GetAllProduct()
 		{
 			try
 			{
-				var products = await _productService.GetAllDetail();
-				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(products);
+				var products = await _productService.GetAllProducts();
+				var response = ApiResponse<List<Product>>.SuccessResponse(products);
 				return Ok(response);
 			}
 			catch (Exception ex) 
@@ -42,8 +42,26 @@ namespace FastFoodManagement.Web.Controllers
 		{
 			try
 			{
-				var products = await _productService.GetByCategory(categoryId);
-				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(products);
+				var products = await _productService.GetDetailByCategory(categoryId);
+				var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(productDTOs);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				var response = ApiResponse<ProductDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
+			}
+		}
+
+		[HttpGet]
+		public async Task<ActionResult<List<ProductDTO>>> GetProductByFilter(string? name, string? categories)
+		{
+			try
+			{
+				var products = await _productService.GetDetailByFilter(name, categories);
+				var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(productDTOs);
 				return Ok(response);
 			}
 			catch (Exception ex)

@@ -11,8 +11,7 @@ namespace FastFoodManagement.Web.Mappings
 			CreateMap<Category, CategoryDTO>();
 			CreateMap<CategoryDTO, Category>();
 
-			CreateMap<Product, ProductDTO>()
-				.ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+			CreateMap<Product, ProductDTO>();
 			CreateMap<ProductDTO, Product>();
 
 			CreateMap<ComboItem,ComboItemDTO>();

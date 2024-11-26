@@ -1,6 +1,7 @@
 ﻿using FastFoodManagement.Model.Abstract;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FastFoodManagement.Model.Models
 {
