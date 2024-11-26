@@ -26,8 +26,9 @@ namespace FastFoodManagement.Web.Controllers
 		{
 			try
 			{
-				var products = await _productService.GetAllDetail();
-				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(products);
+				var products = await _productService.GetAllProducts();
+				var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(productDTOs);
 				return Ok(response);
 			}
 			catch (Exception ex) 
@@ -42,8 +43,9 @@ namespace FastFoodManagement.Web.Controllers
 		{
 			try
 			{
-				var products = await _productService.GetByCategory(categoryId);
-				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(products);
+				var products = await _productService.GetDetailByCategory(categoryId);
+				var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(productDTOs);
 				return Ok(response);
 			}
 			catch (Exception ex)
@@ -59,7 +61,8 @@ namespace FastFoodManagement.Web.Controllers
 			try
 			{
 				var products = await _productService.GetDetailByFilter(name, categories);
-				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(products);
+				var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(productDTOs);
 				return Ok(response);
 			}
 			catch (Exception ex)

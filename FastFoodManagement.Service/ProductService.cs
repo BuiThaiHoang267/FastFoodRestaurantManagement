@@ -13,9 +13,9 @@ namespace FastFoodManagement.Service
 {
     public interface IProductService
     {
-        Task<List<ProductDTO>> GetAllDetail();
-		Task<List<ProductDTO>> GetDetailByFilter(string? name, string? categories);
-		Task<List<ProductDTO>> GetByCategory(int categoryId);
+        Task<List<Product>> GetAllDetail();
+		Task<List<Product>> GetDetailByFilter(string? name, string? categories);
+		Task<List<Product>> GetDetailByCategory(int categoryId);
         Task<List<Product>> GetAllProducts();
         Task<Product> GetById(int id);
         Task<List<Product>> GetTypeProduct();
@@ -53,19 +53,26 @@ namespace FastFoodManagement.Service
 			await SuspendSaveChanges();
 		}
 
-		public async Task<List<ProductDTO>> GetAllDetail()
+		public async Task<List<Product>> GetAllDetail()
 		{
 			return await _productRepository.GetAllDetail().ToListAsync();
 		}
 
 		public async Task<List<Product>> GetAllProducts()
         {
-            return await _productRepository.GetAll(new[] { "Category", "ComboItems" }).ToListAsync();
-        }
+			return await _productRepository.GetAll().ToListAsync();
+		}
 
-        public async Task<List<ProductDTO>> GetByCategory(int categoryId)
+        public async Task<List<Product>> GetDetailByCategory(int categoryId)
         {
-            return await _productRepository.GetByCategory(categoryId);
+			if(categoryId == 0)
+			{
+				return await _productRepository.GetAllDetail().ToListAsync();
+			}
+			else
+			{
+				return await _productRepository.GetAllDetail().Where(p => p.CategoryId == categoryId).ToListAsync();
+			}
         }
 
 		public Task<Product> GetById(int id)
@@ -73,7 +80,7 @@ namespace FastFoodManagement.Service
 			throw new NotImplementedException();
 		}
 
-		public async Task<List<ProductDTO>> GetDetailByFilter(string? name, string? categories)
+		public async Task<List<Product>> GetDetailByFilter(string? name, string? categories)
 		{
 			var query = _productRepository.GetAllDetail();
 			if (!string.IsNullOrEmpty(name))
