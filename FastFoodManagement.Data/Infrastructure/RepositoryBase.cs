@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FastFoodManagement.Model.Abstract;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace FastFoodManagement.Data.Infrastructure
 
         public async Task Add(T entity)
         {
-            await _dbSet.AddAsync(entity);
+			await _dbSet.AddAsync(entity);
         }
 
         public async Task Update(T entity)

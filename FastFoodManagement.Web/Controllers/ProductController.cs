@@ -22,13 +22,12 @@ namespace FastFoodManagement.Web.Controllers
 		}
 
 		[HttpGet("all")]
-		public async Task<ActionResult<List<ProductDTO>>> GetAllProduct()
+		public async Task<ActionResult<List<Product>>> GetAllProduct()
 		{
 			try
 			{
 				var products = await _productService.GetAllProducts();
-				var productDTOs = _mapper.Map<List<ProductDTO>>(products);
-				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(productDTOs);
+				var response = ApiResponse<List<Product>>.SuccessResponse(products);
 				return Ok(response);
 			}
 			catch (Exception ex) 
