@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FastFoodManagement.Model.Abstract;
 
 namespace FastFoodManagement.Data
 {
@@ -60,6 +61,41 @@ namespace FastFoodManagement.Data
                 .WithMany(ci => ci.ProductInComboItems)
                 .HasForeignKey(ci => ci.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
+        }
+        
+        public override int SaveChanges()
+        {
+            SetAuditFields();
+            return base.SaveChanges();
+        }
+        
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            SetAuditFields();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+        
+        // This method will automatically set the CreatedAt and UpdatedAt fields
+        private void SetAuditFields()
+        {
+            // Loop through all the entries in the change tracker
+            var entries = ChangeTracker.Entries()
+                .Where(e => e.Entity is IAuditable && 
+                            (e.State == EntityState.Added || e.State == EntityState.Modified));
+
+            foreach (var entry in entries)
+            {
+                var entity = (IAuditable)entry.Entity;
+
+                // Set CreatedAt only on new entities (State == Added)
+                if (entry.State == EntityState.Added)
+                {
+                    entity.CreatedAt = DateTime.UtcNow;  // Set to current UTC time
+                }
+
+                // Always set UpdatedAt on both Added and Modified entities
+                entity.UpdatedAt = DateTime.UtcNow;
+            }
         }
     }
 }
