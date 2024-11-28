@@ -18,6 +18,7 @@ namespace FastFoodManagement.Web.Extensions
 		{
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddScoped<IProductRepository, ProductRepository>();
+			services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
 		}
 
 		// Dependency Injection Services
@@ -25,6 +26,7 @@ namespace FastFoodManagement.Web.Extensions
 		{
 			services.AddScoped<ICategoryService, CategoryService>();
 			services.AddScoped<IProductService, ProductService>();
+			services.AddScoped<IPaymentMethodService, PaymentMethodService>();
 		}
 	}
 }

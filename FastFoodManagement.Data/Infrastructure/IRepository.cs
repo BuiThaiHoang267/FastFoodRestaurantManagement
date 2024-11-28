@@ -12,6 +12,7 @@ namespace FastFoodManagement.Data.Infrastructure
         Task Add(T entity);
         Task Update(T entity);
         Task Delete(T entity);
+        Task DeleteById(int id);
         Task DeleteMulti(Expression<Func<T, bool>> where);
         Task<T> GetSingleById(int id);
         Task<T> GetSingleByCondition(Expression<Func<T, bool>> expression, string[]? includes = null);

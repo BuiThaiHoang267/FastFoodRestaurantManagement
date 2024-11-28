@@ -52,6 +52,19 @@ namespace FastFoodManagement.Data.Infrastructure
 			await Task.CompletedTask;
 		}
 
+        public async Task DeleteById(int id)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            
+            if (entity == null)
+            {
+                throw new KeyNotFoundException($"Entity with ID {id} was not found");
+            }
+
+            _dbSet.Remove(entity);
+            await Task.CompletedTask;
+        }
+
         public async Task DeleteMulti(Expression<Func<T, bool>> where)
         {
             var entities = _dbSet.Where(where).ToList();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FastFoodManagement.Model.Models;
 using FastFoodManagement.Data.DTO;
+using FastFoodManagement.Data.DTO.PaymentMethod;
 
 namespace FastFoodManagement.Web.Mappings
 {
@@ -16,6 +17,11 @@ namespace FastFoodManagement.Web.Mappings
 
 			CreateMap<ComboItem,ComboItemDTO>();
 			CreateMap<ComboItemDTO, ComboItem>();
+
+			CreateMap<PaymentMethod, CreatePaymentMethodDTO>();
+			CreateMap<CreatePaymentMethodDTO, PaymentMethod>();
+			CreateMap<PaymentMethod, RetrievePaymentMethodDTO>();
+			CreateMap<RetrievePaymentMethodDTO, PaymentMethod>();
 		}
 	}
 }
