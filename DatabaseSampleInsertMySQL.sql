@@ -1,5 +1,24 @@
 use fastfooddb;
 
+INSERT INTO Branches(Id, Name, Location, Phone, Email, IsActive)
+VALUES
+(1, N'Chi nhánh 1', N'Quận 1 - Thành phố HCM', '0987654321', 'chinhanh1@gmail.com', true),
+(2, N'Chi nhánh Thủ Đức', N'Thủ Đức - Thành phố HCM', '0987654321', 'chinhanhthuduc@gmail.com', true);
+
+INSERT INTO PaymentMethods(Id, Name)
+VALUES
+(1, N'Tiền mặt'),
+(2, N'Chuyển khoản'),
+(3, N'Quẹt thẻ');
+
+INSERT INTO Roles(Id, Code, Name)
+VALUES
+(1, 'ADMIN', 'Admin'),
+(2, 'MANAGER', 'Quản lý chi nhánh'),
+(3, 'SALES', 'Thu ngân'),
+(4, 'CHEF', 'Nhân viên bếp');
+
+
 INSERT INTO Categories(Id, Name, Image)
 VALUES
 (1, N'Món ngon phải thử', 'https://jollibee.com.vn/media/catalog/category/web-12_1_1.png'),
