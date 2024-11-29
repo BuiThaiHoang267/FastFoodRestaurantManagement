@@ -245,4 +245,23 @@ public class OrderController : ControllerBase
             return BadRequest(response);
         }
     }
+
+    [HttpGet]
+	public async Task<ActionResult<List<RetrieveOrderDTO>>> GetOrderByFilters(
+        string? id, string? paymentMethods, string? branches, string? startDate, string? endDate
+        )
+	{
+		try
+		{
+			var orders = await _orderService.GetOrderByFilters(id, paymentMethods, branches, startDate, endDate);
+			var orderDTOs = _mapper.Map<List<RetrieveOrderDTO>>(orders);
+			var response = ApiResponse<List<RetrieveOrderDTO>>.SuccessResponse(orderDTOs, code: 200);
+			return Ok(response);
+		}
+		catch (Exception ex)
+		{
+			var response = ApiResponse<RetrieveOrderDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+			return BadRequest(response);
+		}
+	}
 }

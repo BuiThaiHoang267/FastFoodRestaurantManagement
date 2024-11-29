@@ -3,6 +3,7 @@ using FastFoodManagement.Data.Infrastructure;
 using FastFoodManagement.Data.Repositories;
 using FastFoodManagement.Model.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace FastFoodManagement.Service;
 
@@ -10,6 +11,7 @@ public interface IOrderService
 {
     public Task<List<Order>> GetAllOrders();
     public Task<Order> GetOrderById(int id);
+    public Task<List<Order>> GetOrderByFilters(string? id, string? paymentMethods, string? branches, string? startDate, string? endDate);
     public Task<Order> CreateOrder(Order order);
     public Task AddOrder(Order order);
     public Task DeleteOrderById(int id);
@@ -287,4 +289,45 @@ public class OrderService : IOrderService
     {
         await _unitOfWork.CommitAsync();
     }
+
+	public async Task<List<Order>> GetOrderByFilters(string? id, string? paymentMethods, string? branches, string? startDate, string? endDate)
+	{
+        var query = _orderRepository.GetAll()
+            .Include(o => o.PaymentMethod)
+            .Include(o => o.Branch)
+            .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.Product)
+            .AsQueryable();
+		if (id != null && int.TryParse(id, out var orderId))
+		{
+			query = query.Where(o => o.Id == orderId);
+			return await query.ToListAsync();
+		}
+
+		if (paymentMethods != null)
+		{
+			var paymentMethodIds = paymentMethods.Split(',').Select(int.Parse).ToList();
+			query = query.Where(o => paymentMethodIds.Contains(o.PaymentMethodId));
+		}
+
+		if (branches != null)
+		{
+			var branchIds = branches.Split(',').Select(int.Parse).ToList();
+			query = query.Where(o => branchIds.Contains(o.BranchId));
+		}
+
+		if (startDate != null)
+		{
+			var start = DateTime.ParseExact(startDate, "dd/MM/yyyy" , CultureInfo.InvariantCulture);
+			query = query.Where(o => o.UpdatedAt >= start);
+		}
+
+		if (endDate != null)
+		{
+			var end = DateTime.ParseExact(endDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1).AddTicks(-1);
+			query = query.Where(o => o.UpdatedAt <= end);
+		}
+
+        return await query.ToListAsync();
+	}
 }
