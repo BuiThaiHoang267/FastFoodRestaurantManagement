@@ -61,13 +61,16 @@ public class OrderController : ControllerBase
     {
         try
         {
-            var order = _mapper.Map<Order>(orderDTO);
-            
-            // Set default value for order status, total price
-            order.TotalPrice = 0;
+			foreach (var orderItemDTO in orderDTO.OrderItems)
+			{
+				orderItemDTO.Status = OrderItemStatusExtensions.ToStringValue(OrderItemStatus.Pending);
+			}
+
+			var order = _mapper.Map<Order>(orderDTO);
+
             order.Status = OrderStatusExtensions.ToStringValue(OrderStatus.Pending);
-            
-            await _orderService.CreateOrder(order);
+
+			await _orderService.AddOrder(order);
             var response = ApiResponse<CreateOrderDTO>.SuccessResponse(orderDTO, code: 200);
             return Ok(response);
         }

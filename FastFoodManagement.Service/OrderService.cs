@@ -54,7 +54,7 @@ public class OrderService : IOrderService
         var orders = await _orderRepository
             .GetMulti(
                 o => true, 
-                new string[] { "OrderItems.Product", "Branch", "PaymentMethod" })
+                new string[] { "OrderItems.Product", "Branch", "PaymentMethod", "OrderItems.Product.ComboItems", "OrderItems.Product.ComboItems.Product" })
             .ToListAsync();
     
         return orders;
