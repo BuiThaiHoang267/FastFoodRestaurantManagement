@@ -52,6 +52,19 @@ namespace FastFoodManagement.Data.Infrastructure
 			await Task.CompletedTask;
 		}
 
+        public async Task DeleteById(int id)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            
+            if (entity == null)
+            {
+                throw new KeyNotFoundException($"{typeof(T).Name} with ID {id} was not found");
+            }
+
+            _dbSet.Remove(entity);
+            await Task.CompletedTask;
+        }
+
         public async Task DeleteMulti(Expression<Func<T, bool>> where)
         {
             var entities = _dbSet.Where(where).ToList();
@@ -62,12 +75,12 @@ namespace FastFoodManagement.Data.Infrastructure
 			await Task.CompletedTask;
 		}
 
-        public async Task<T> GetSingleById(int id)
+        public async Task<T?> GetSingleById(int id)
         {
 			T? entity = await _dbSet.FindAsync(id);
             if(entity == null)
             {
-                throw new KeyNotFoundException($"Entity with ID {id} was not found");
+                throw new KeyNotFoundException($"{typeof(T).Name} with ID {id} was not found");
 			}
 			return entity;
 		}
@@ -87,7 +100,7 @@ namespace FastFoodManagement.Data.Infrastructure
             T? entity = await query.FirstOrDefaultAsync(expression);
             if (entity == null)
             {
-                throw new Exception("Entity was not found");
+                throw new Exception($"{typeof(T).Name} was not found");
             }
 			return entity;
 		}
