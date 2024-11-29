@@ -1,36 +1,40 @@
 ﻿namespace FastFoodManagement.Data.Enums;
 
-public enum OrderStatus
+public enum OrderItemStatus
 {
     Pending,
+    Cooking,
     Completed,
     Cancelled
 }
 
-public static class OrderStatusExtensions
+public static class OrderItemStatusExtensions
 {
-    public static string ToStringValue(this OrderStatus status)
+    public static string ToStringValue(this OrderItemStatus status)
     {
         switch (status)
         {
-            case OrderStatus.Pending:
+            case OrderItemStatus.Pending:
                 return "Pending";
-            case OrderStatus.Completed:
+            case OrderItemStatus.Cooking:
+                return "Cooking";
+            case OrderItemStatus.Completed:
                 return "Completed";
-            case OrderStatus.Cancelled:
+            case OrderItemStatus.Cancelled:
                 return "Cancelled";
             default:
                 return string.Empty;
         }
     }
 
-    public static OrderStatus FromStringValue(string status)
+    public static OrderItemStatus FromStringValue(string status)
     {
         return status switch
         {
-            "Pending" => OrderStatus.Pending,
-            "Completed" => OrderStatus.Completed,
-            "Cancelled" => OrderStatus.Cancelled,
+            "Pending" => OrderItemStatus.Pending,
+            "Cooking" => OrderItemStatus.Cooking,
+            "Completed" => OrderItemStatus.Completed,
+            "Cancelled" => OrderItemStatus.Cancelled,
             _ => throw new ArgumentException("Invalid status value", nameof(status)),
         };
     }
@@ -40,6 +44,7 @@ public static class OrderStatusExtensions
         return status switch
         {
             "Pending" => true,
+            "Cooking" => true,
             "Completed" => true,
             "Cancelled" => true,
             _ => false,

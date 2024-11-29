@@ -2,6 +2,7 @@
 using FastFoodManagement.Model.Models;
 using FastFoodManagement.Data.DTO;
 using FastFoodManagement.Data.DTO.Branch;
+using FastFoodManagement.Data.DTO.Order;
 using FastFoodManagement.Data.DTO.PaymentMethod;
 
 namespace FastFoodManagement.Web.Mappings
@@ -30,6 +31,20 @@ namespace FastFoodManagement.Web.Mappings
 			CreateMap<RetrieveBranchDTO, Branch>();
 			CreateMap<UpdateBranchDTO, Branch>();
 			CreateMap<Branch, UpdateBranchDTO>();
+
+			CreateMap<OrderItem, RetrieveOrderItemDTO>();
+			CreateMap<RetrieveOrderItemDTO, OrderItem>();
+			CreateMap<OrderItem, CreateOrderItemDTO>();
+			CreateMap<CreateOrderItemDTO, OrderItem>();
+			CreateMap<OrderItem, UpdateOrderItemDTO>();
+			CreateMap<UpdateOrderItemDTO, OrderItem>();
+
+			CreateMap<Order, RetrieveOrderDTO>();
+			CreateMap<RetrieveOrderDTO, Order>();
+			CreateMap<Order, CreateOrderDTO>();
+			CreateMap<CreateOrderDTO, Order>();
+			CreateMap<Order, UpdateOrderDTO>();
+			CreateMap<UpdateOrderDTO, Order>();
 		}
 	}
 }

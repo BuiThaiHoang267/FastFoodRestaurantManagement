@@ -60,6 +60,9 @@ public class BranchController : ControllerBase
         {
             var branch = _mapper.Map<Branch>(branchDTO);
 
+            // Created branch is active by default
+            branch.IsActive = true;
+            
             await _branchService.AddBranch(branch);
             var response = ApiResponse<CreateBranchDTO>.SuccessResponse(branchDTO, code: 200);
             return Ok(response);
@@ -77,7 +80,7 @@ public class BranchController : ControllerBase
         try
         {
             await _branchService.DeleteBranchById(id);
-            var response = new ApiResponse<RetrieveBranchDTO>(message: "Branch deleted successfully", code: 200, success: true);
+            var response = new ApiResponse<RetrieveBranchDTO>(message: $"Branch ${id} deleted successfully", code: 200, success: true);
             return Ok(response);
         }
         catch (Exception e)
