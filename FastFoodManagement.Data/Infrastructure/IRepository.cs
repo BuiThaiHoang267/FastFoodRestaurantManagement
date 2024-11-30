@@ -15,7 +15,7 @@ namespace FastFoodManagement.Data.Infrastructure
         Task DeleteById(int id);
         Task DeleteMulti(Expression<Func<T, bool>> where);
         Task<T?> GetSingleById(int id);
-        Task<T> GetSingleByCondition(Expression<Func<T, bool>> expression, string[]? includes = null);
+        Task<T?> GetSingleByCondition(Expression<Func<T, bool>> expression, string[]? includes = null);
         IQueryable<T> GetAll(string[]? includes = null);
 		IQueryable<T> GetMulti(Expression<Func<T, bool>> expression, string[]? includes = null);
         IQueryable<T> GetMultiPaging(Expression<Func<T, bool>> expression, int page, int pageSize, string[]? includes = null);

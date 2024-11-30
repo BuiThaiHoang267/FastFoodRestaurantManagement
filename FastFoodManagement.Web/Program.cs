@@ -1,9 +1,16 @@
+using System.Collections;
+using System.Text;
+using DotNetEnv;
 using FastFoodManagement.Data;
 using FastFoodManagement.Web.Extensions;
 using FastFoodManagement.Web.Mappings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Env.Load();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -18,6 +25,21 @@ builder.Services.AddDbContext<FastFoodManagementDbContext>(options =>
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(options =>
+	{
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidateLifetime = true,
+			ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
+			ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY")))
+		};
+	});
 
 //Dependency Injection
 builder.Services.InfrastructureDJ();
@@ -48,10 +70,14 @@ using (var scope = app.Services.CreateScope())
 	dbContext.Database.Migrate();
 }
 
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+// Use authentication middleware
+app.UseAuthentication();
 
 app.UseAuthorization();
 

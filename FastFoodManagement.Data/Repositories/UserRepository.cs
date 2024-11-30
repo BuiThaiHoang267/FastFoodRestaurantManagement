@@ -1,5 +1,6 @@
 ﻿using FastFoodManagement.Data.Infrastructure;
 using FastFoodManagement.Model.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FastFoodManagement.Data.Repositories
 {
