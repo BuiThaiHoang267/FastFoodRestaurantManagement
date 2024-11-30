@@ -90,11 +90,11 @@ namespace FastFoodManagement.Data
                 // Set CreatedAt only on new entities (State == Added)
                 if (entry.State == EntityState.Added)
                 {
-                    entity.CreatedAt = DateTime.UtcNow;  // Set to current UTC time
+                    entity.CreatedAt = DateTime.Now;  // Set to current UTC time
                 }
 
                 // Always set UpdatedAt on both Added and Modified entities
-                entity.UpdatedAt = DateTime.UtcNow;
+                entity.UpdatedAt = DateTime.Now;
             }
         }
     }

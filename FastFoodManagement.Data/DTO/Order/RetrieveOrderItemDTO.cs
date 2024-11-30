@@ -12,5 +12,6 @@ public class RetrieveOrderItemDTO
     public string? ProductImage { get; set; }
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
-    public List<ComboItemDTO> ProductComboItems { get; set; } = new List<ComboItemDTO>();
+	public int OrderNumberOrder { get; set; }
+	public List<ComboItemDTO> ProductComboItems { get; set; } = new List<ComboItemDTO>();
 }

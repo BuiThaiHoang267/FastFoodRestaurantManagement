@@ -264,4 +264,38 @@ public class OrderController : ControllerBase
 			return BadRequest(response);
 		}
 	}
+
+    [HttpGet("status-pending")]
+    public async Task<ActionResult<List<RetrieveOrderDTO>>> GetOrdersByStatusPending()
+	{
+		try
+		{
+			var orders = await _orderService.GetOrderPending();
+			var orderDTOs = _mapper.Map<List<RetrieveOrderDTO>>(orders);
+			var response = ApiResponse<List<RetrieveOrderDTO>>.SuccessResponse(orderDTOs, code: 200);
+			return Ok(response);
+		}
+		catch (Exception ex)
+		{
+			var response = ApiResponse<RetrieveOrderDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+			return BadRequest(response);
+		}
+	}
+
+    [HttpGet("item/status-cooked")]
+	public async Task<ActionResult<List<RetrieveOrderItemDTO>>> GetOrderItemsByStatusCooked()
+	{
+		try
+		{
+			var orderItems = await _orderService.GetOrderItemsCooked();
+			var orderItemDTOs = _mapper.Map<List<RetrieveOrderItemDTO>>(orderItems);
+			var response = ApiResponse<List<RetrieveOrderItemDTO>>.SuccessResponse(orderItemDTOs, code: 200);
+			return Ok(response);
+		}
+		catch (Exception ex)
+		{
+			var response = ApiResponse<RetrieveOrderItemDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+			return BadRequest(response);
+		}
+	}
 }
