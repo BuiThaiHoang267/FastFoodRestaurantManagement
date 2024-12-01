@@ -3,6 +3,7 @@ using FastFoodManagement.Model.Models;
 using FastFoodManagement.Service;
 using FastFoodManagement.Web.Common;
 using FastFoodManagement.Data.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodManagement.Web.Controllers
@@ -18,7 +19,7 @@ namespace FastFoodManagement.Web.Controllers
 			_categoryService = categoryService;
 			_mapper = mapper;
 		}
-
+		
 		[HttpGet("all")]
 		public async Task<ActionResult<ApiResponse<List<CategoryDTO>>>> GetAllCategories()
 		{

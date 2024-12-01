@@ -37,7 +37,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("login")]
-    public async Task<ActionResult<ApiResponse<RetrieveUserDTO>>> LoginUser(LoginUserDTO loginUserDTO)
+    public async Task<ActionResult<ApiResponse<string>>> LoginUser(LoginUserDTO loginUserDTO)
     {
         try
         {

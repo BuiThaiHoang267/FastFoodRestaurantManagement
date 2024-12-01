@@ -137,10 +137,12 @@ public class UserService : IUserService
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.NameIdentifier, user.Username),
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim("Name", user.Name),
+            new Claim("Role Id", user.RoleId.ToString()),
             new Claim(ClaimTypes.Role, user.Role.Name),
-            new Claim(ClaimTypes.Role, user.Branch.Name)
+            new Claim("Branch Id", user.BranchId.ToString()),
+            new Claim("Branch", user.Branch.Name)
         };
         
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY")));
@@ -150,7 +152,7 @@ public class UserService : IUserService
             issuer: Environment.GetEnvironmentVariable("JWT_ISSUER"),
             audience: Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
             claims: claims,
-            expires: DateTime.Now.AddHours(1),
+            expires: DateTime.Now.AddHours(48),
             signingCredentials: credentials
         );
 
