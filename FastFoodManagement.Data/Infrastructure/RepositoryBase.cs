@@ -85,7 +85,7 @@ namespace FastFoodManagement.Data.Infrastructure
 			return entity;
 		}
 
-        public async Task<T> GetSingleByCondition(Expression<Func<T, bool>> expression, string[]? includes = null)
+        public async Task<T?> GetSingleByCondition(Expression<Func<T, bool>> expression, string[]? includes = null)
         {
             IQueryable<T> query = _dbSet;
 

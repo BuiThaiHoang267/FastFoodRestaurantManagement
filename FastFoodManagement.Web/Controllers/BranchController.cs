@@ -3,6 +3,7 @@ using FastFoodManagement.Data.DTO.Branch;
 using FastFoodManagement.Model.Models;
 using FastFoodManagement.Service;
 using FastFoodManagement.Web.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodManagement.Web.Controllers;
@@ -18,7 +19,7 @@ public class BranchController : ControllerBase
         _branchService = branchService;
         _mapper = mapper;
     }
-
+    
     [HttpGet("all")]
     public async Task<ActionResult<ApiResponse<List<RetrieveBranchDTO>>>> GetAllBranches()
     {
