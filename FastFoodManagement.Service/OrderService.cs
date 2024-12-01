@@ -122,7 +122,18 @@ public class OrderService : IOrderService
 
     public async Task UpdateOrder(Order order)
     {
-        await _orderRepository.Update(order);
+        // update status orderitem if order status = completed
+        if(order.Status == OrderStatus.Completed.ToStringValue())
+		{
+			var orderItems = await _orderItemRepository.GetMulti(item => item.OrderId == order.Id, null).ToListAsync();
+			foreach (var orderItem in orderItems)
+			{
+				orderItem.Status = OrderItemStatus.Cooked.ToStringValue();
+				await _orderItemRepository.Update(orderItem);
+			}
+		}
+
+		await _orderRepository.Update(order);
         await SuspendChanges();
     }
 
