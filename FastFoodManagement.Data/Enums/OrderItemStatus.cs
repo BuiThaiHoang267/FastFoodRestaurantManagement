@@ -3,7 +3,7 @@
 public enum OrderItemStatus
 {
     Pending,
-    Cooking,
+    Cooked,
     Completed,
     Cancelled
 }
@@ -16,8 +16,8 @@ public static class OrderItemStatusExtensions
         {
             case OrderItemStatus.Pending:
                 return "Pending";
-            case OrderItemStatus.Cooking:
-                return "Cooking";
+            case OrderItemStatus.Cooked:
+                return "Cooked";
             case OrderItemStatus.Completed:
                 return "Completed";
             case OrderItemStatus.Cancelled:
@@ -32,7 +32,7 @@ public static class OrderItemStatusExtensions
         return status switch
         {
             "Pending" => OrderItemStatus.Pending,
-            "Cooking" => OrderItemStatus.Cooking,
+            "Cooked" => OrderItemStatus.Cooked,
             "Completed" => OrderItemStatus.Completed,
             "Cancelled" => OrderItemStatus.Cancelled,
             _ => throw new ArgumentException("Invalid status value", nameof(status)),
@@ -44,7 +44,7 @@ public static class OrderItemStatusExtensions
         return status switch
         {
             "Pending" => true,
-            "Cooking" => true,
+            "Cooked" => true,
             "Completed" => true,
             "Cancelled" => true,
             _ => false,

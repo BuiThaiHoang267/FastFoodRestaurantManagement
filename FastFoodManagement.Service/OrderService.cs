@@ -3,6 +3,7 @@ using FastFoodManagement.Data.Infrastructure;
 using FastFoodManagement.Data.Repositories;
 using FastFoodManagement.Model.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace FastFoodManagement.Service;
 
@@ -10,12 +11,15 @@ public interface IOrderService
 {
     public Task<List<Order>> GetAllOrders();
     public Task<Order> GetOrderById(int id);
+    public Task<List<Order>> GetOrderPending();
+    public Task<List<Order>> GetOrderByFilters(string? id, string? paymentMethods, string? branches, string? startDate, string? endDate);
     public Task<Order> CreateOrder(Order order);
     public Task AddOrder(Order order);
     public Task DeleteOrderById(int id);
     public Task UpdateOrder(Order order);
     public Task<List<OrderItem>> GetAllOrderItemsByOrderId(int id);
     public Task<OrderItem> GetOrderItemById(int id);
+    public Task<List<OrderItem>> GetOrderItemsCooked();
     public Task AddOneOrderItem(OrderItem orderItem);
     public Task DeleteOrderItemById(int id);
     public Task UpdateOrderItem(OrderItem orderItem);
@@ -54,7 +58,7 @@ public class OrderService : IOrderService
         var orders = await _orderRepository
             .GetMulti(
                 o => true, 
-                new string[] { "OrderItems.Product", "Branch", "PaymentMethod" })
+                new string[] { "OrderItems.Product", "Branch", "PaymentMethod", "OrderItems.Product.ComboItems", "OrderItems.Product.ComboItems.Product" })
             .ToListAsync();
     
         return orders;
@@ -118,7 +122,18 @@ public class OrderService : IOrderService
 
     public async Task UpdateOrder(Order order)
     {
-        await _orderRepository.Update(order);
+        // update status orderitem if order status = completed
+        if(order.Status == OrderStatus.Completed.ToStringValue())
+		{
+			var orderItems = await _orderItemRepository.GetMulti(item => item.OrderId == order.Id, null).ToListAsync();
+			foreach (var orderItem in orderItems)
+			{
+				orderItem.Status = OrderItemStatus.Cooked.ToStringValue();
+				await _orderItemRepository.Update(orderItem);
+			}
+		}
+
+		await _orderRepository.Update(order);
         await SuspendChanges();
     }
 
@@ -236,12 +251,21 @@ public class OrderService : IOrderService
             .FirstOrDefaultAsync();
         if (order != null)
         {
-            decimal totalPrice = 0;
+            bool canCompleteOrder = true;
+			decimal totalPrice = 0;
             foreach (var item in order.OrderItems)
             {
                 totalPrice += item.UnitPrice * item.Quantity;
-            }
-            order.TotalPrice = totalPrice;
+                if(item.Status == OrderItemStatus.Pending.ToStringValue())
+				{
+					canCompleteOrder = false;
+				}
+			}
+			if (canCompleteOrder && order.Status == OrderStatus.Pending.ToStringValue())
+			{
+				order.Status = OrderStatus.Completed.ToStringValue();
+			}
+			order.TotalPrice = totalPrice;
             await _orderRepository.Update(order);
         }
         
@@ -287,4 +311,74 @@ public class OrderService : IOrderService
     {
         await _unitOfWork.CommitAsync();
     }
+
+	public async Task<List<Order>> GetOrderByFilters(string? id, string? paymentMethods, string? branches, string? startDate, string? endDate)
+	{
+        var query = _orderRepository.GetAll()
+            .Include(o => o.PaymentMethod)
+            .Include(o => o.Branch)
+            .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.Product)
+            .AsQueryable();
+		if (id != null && int.TryParse(id, out var orderId))
+		{
+			query = query.Where(o => o.Id == orderId);
+			return await query.ToListAsync();
+		}
+
+		if (paymentMethods != null)
+		{
+			var paymentMethodIds = paymentMethods.Split(',').Select(int.Parse).ToList();
+			query = query.Where(o => paymentMethodIds.Contains(o.PaymentMethodId));
+		}
+
+		if (branches != null)
+		{
+			var branchIds = branches.Split(',').Select(int.Parse).ToList();
+			query = query.Where(o => branchIds.Contains(o.BranchId));
+		}
+
+		if (startDate != null)
+		{
+			var start = DateTime.ParseExact(startDate, "dd/MM/yyyy" , CultureInfo.InvariantCulture);
+			query = query.Where(o => o.UpdatedAt >= start);
+		}
+
+		if (endDate != null)
+		{
+			var end = DateTime.ParseExact(endDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1).AddTicks(-1);
+			query = query.Where(o => o.UpdatedAt <= end);
+		}
+
+        return await query.ToListAsync();
+	}
+
+	public Task<List<Order>> GetOrderPending()
+	{
+		var query = _orderRepository.GetAll()
+            .Where(o => o.Status == OrderStatus.Pending.ToStringValue())
+			.Include(o => o.PaymentMethod)
+			.Include(o => o.Branch)
+			.Include(o => o.OrderItems.Where(oi => oi.Status == OrderItemStatus.Pending.ToStringValue()))
+			.ThenInclude(oi => oi.Product)
+            .ThenInclude(p => p.ComboItems)
+			.ThenInclude(ci => ci.Product)
+			.AsQueryable();
+
+		return query.ToListAsync();
+	}
+
+	public async Task<List<OrderItem>> GetOrderItemsCooked()
+	{
+		var query = _orderItemRepository.GetAll()
+			.Where(oi => oi.Status == OrderItemStatus.Cooked.ToStringValue())
+            .Include (oi => oi.Order)
+			.Include(oi => oi.Product)
+            .ThenInclude(p => p.ComboItems)
+			.ThenInclude(ci => ci.Product)
+			.AsQueryable();
+
+		return await query.ToListAsync();
+	}
+
 }

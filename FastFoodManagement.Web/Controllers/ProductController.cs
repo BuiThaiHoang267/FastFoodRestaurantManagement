@@ -55,11 +55,11 @@ namespace FastFoodManagement.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<List<ProductDTO>>> GetProductByFilter(string? name, string? categories)
+		public async Task<ActionResult<List<ProductDTO>>> GetProductByFilter(string? name, string? categories, string? types)
 		{
 			try
 			{
-				var products = await _productService.GetDetailByFilter(name, categories);
+				var products = await _productService.GetDetailByFilter(name, categories, types);
 				var productDTOs = _mapper.Map<List<ProductDTO>>(products);
 				var response = ApiResponse<List<ProductDTO>>.SuccessResponse(productDTOs);
 				return Ok(response);
