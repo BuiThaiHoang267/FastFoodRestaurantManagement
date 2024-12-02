@@ -106,7 +106,8 @@ namespace FastFoodManagement.Service
 			var groupByTime = orders.GroupBy(o => o.CreatedAt.Value.Hour).OrderBy(g => (int)g.Key);
 			foreach (var group in groupByTime)
 			{
-				RevenueChartByTime.Labels.Add(group.Key.ToString());
+				var formattedTime = new TimeSpan(group.Key, 0, 0).ToString(@"hh\:mm");
+				RevenueChartByTime.Labels.Add(formattedTime);
 				RevenueChartByTime.Data.Add(group.Sum(o => o.TotalPrice));
 			}
 
