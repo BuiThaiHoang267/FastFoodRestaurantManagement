@@ -5,6 +5,7 @@ using FastFoodManagement.Data.DTO.User;
 using FastFoodManagement.Data.Infrastructure;
 using FastFoodManagement.Data.Repositories;
 using FastFoodManagement.Model.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,6 +15,10 @@ public interface IUserService
 {
     Task<User> RegisterUser(RegisterUserDTO userDto);
     Task<string> AuthenticateUser(string username, string password);
+    Task<List<User>> GetAllUsers();
+    Task<User> GetUserById(int id);
+    Task DeleteUserById(int id);
+    Task<User> UpdateUser(User user);
     public void SaveChanges();
     public Task SuspendChanges();
 }
@@ -119,6 +124,39 @@ public class UserService : IUserService
         }
 
         return GenerateJwtToken(user);
+    }
+    
+    public async Task<List<User>> GetAllUsers()
+    {
+        List<User> entity = await _userRepository
+            .GetMulti(
+                u => true,
+                new string[] { "Role", "Branch" })
+            .ToListAsync();
+        return entity;
+    }
+    
+    public async Task<User> GetUserById(int id)
+    {
+        var user = await _userRepository
+            .GetMulti(
+                u => true,
+                new string[] { "Role", "Branch" })
+            .FirstOrDefaultAsync();
+        return user;
+    }
+    
+    public async Task DeleteUserById(int id)
+    {
+        await _userRepository.DeleteById(id);
+        await SuspendChanges();
+    }
+    
+    public async Task<User> UpdateUser(User user)
+    {
+        await _userRepository.Update(user);
+        await SuspendChanges();
+        return user;
     }
     
     public void SaveChanges()

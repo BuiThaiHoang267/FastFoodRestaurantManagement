@@ -54,4 +54,103 @@ public class UserController : ControllerBase
             return Unauthorized(response);
         }
     }
+    
+    [HttpGet("all")]
+    public async Task<ActionResult<ApiResponse<List<RetrieveUserDTO>>>> GetAllUsers()
+    {
+        try
+        {
+            var users = await _userService.GetAllUsers();
+            var userDTOs = _mapper.Map<List<RetrieveUserDTO>>(users);
+            var response = ApiResponse<List<RetrieveUserDTO>>.SuccessResponse(userDTOs, code: 200);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            var response = ApiResponse<RetrieveUserDTO>.ErrorResponse(e.Message, new List<string> { e.Message }, 500);
+            return BadRequest(response);
+        }
+    }
+    
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<ApiResponse<RetrieveUserDTO>>> GetUserById(int id)
+    {
+        try
+        {
+            var user = await _userService.GetUserById(id);
+            var userDTO = _mapper.Map<RetrieveUserDTO>(user);
+            var response = ApiResponse<RetrieveUserDTO>.SuccessResponse(userDTO, code: 200);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            var response = ApiResponse<RetrieveUserDTO>.ErrorResponse(e.Message, new List<string> { e.Message }, 500);
+            return BadRequest(response);
+        }
+    }
+    
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteUserById(int id)
+    {
+        try
+        {
+            await _userService.DeleteUserById(id);
+            var response = new ApiResponse<RetrieveUserDTO>(message: $"User ${id} deleted successfully", code: 200, success: true);
+            return Ok(response);
+        }
+        catch (Exception e)
+        {
+            var response = ApiResponse<RetrieveUserDTO>.ErrorResponse(e.Message, new List<string> { e.Message }, 500);
+            return BadRequest(response);
+        }
+    }
+    
+    [HttpPatch("update/{id:int}")]
+    public async Task<ActionResult<ApiResponse<RetrieveUserDTO>>> UpdateUser(int id, UpdateUserDTO updateUserDTO)
+    {
+        try
+        {
+            var user = await _userService.GetUserById(id);
+            if (user == null)
+            {
+                var response = ApiResponse<RetrieveUserDTO>.ErrorResponse("User not found", new List<string> { "User not found" }, 404);
+                return NotFound(response);
+            }
+            
+            if (updateUserDTO.Name != null)
+            {
+                user.Name = updateUserDTO.Name;
+            }
+            if (updateUserDTO.Phone != null)
+            {
+                user.Phone = updateUserDTO.Phone;
+            }
+            if (updateUserDTO.Email != null)
+            {
+                user.Email = updateUserDTO.Email;
+            }
+            if (updateUserDTO.IsActive != null)
+            {
+                user.IsActive = updateUserDTO.IsActive.Value;
+            }
+            if (updateUserDTO.RoleId != null)
+            {
+                user.RoleId = updateUserDTO.RoleId.Value;
+            }
+            if (updateUserDTO.BranchId != null)
+            {
+                user.BranchId = updateUserDTO.BranchId.Value;
+            }
+            
+            await _userService.UpdateUser(user);
+            var userDTO = _mapper.Map<RetrieveUserDTO>(user);
+            var response1 = ApiResponse<RetrieveUserDTO>.SuccessResponse(userDTO, code: 200);
+            return Ok(response1);
+        }
+        catch (Exception e)
+        {
+            var response = ApiResponse<RetrieveUserDTO>.ErrorResponse(e.Message, new List<string> { e.Message }, 500);
+            return BadRequest(response);
+        }
+    }
 }
