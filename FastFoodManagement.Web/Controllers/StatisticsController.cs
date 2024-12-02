@@ -30,5 +30,37 @@ namespace FastFoodManagement.Web.Controllers
 				return BadRequest(response);
 			}
 		}
+
+		[HttpGet("revenue-chart")]
+		public async Task<ActionResult<StatisticRevenueChartDTO>> StatisticRevenueChart([FromQuery] DateRangeDTO date)
+		{
+			try
+			{
+				var result = await _statisticsService.StatisticsRevenueChart(date);
+				var response = ApiResponse<StatisticRevenueChartDTO>.SuccessResponse(result);
+				return Ok(response);
+			}
+			catch (System.Exception ex)
+			{
+				var response = ApiResponse<StatisticRevenueChartDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
+			}
+		}
+
+		[HttpGet("top-product")]
+		public async Task<ActionResult<TopProductDTO>> StatisticTopProduct([FromQuery] DateRangeDTO date)
+		{
+			try
+			{
+				var result = await _statisticsService.Top10Product(date);
+				var response = ApiResponse<TopProductDTO>.SuccessResponse(result);
+				return Ok(response);
+			}
+			catch (System.Exception ex)
+			{
+				var response = ApiResponse<TopProductDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
+			}
+		}
 	}
 }
