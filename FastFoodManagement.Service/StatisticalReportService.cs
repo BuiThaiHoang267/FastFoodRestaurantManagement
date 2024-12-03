@@ -8,6 +8,8 @@ namespace FastFoodManagement.Service
 	public interface IStatisticalReportService
 	{
 		public Task<StatisticSaleDTO> StatisticsSale(string? branchId, DateRangeDTO date);
+
+		public Task<StatisticProductDTO> StatisticsProduct(DateRangeDTO date, string? branchId, string? categoryId);
 	}
 	public class StatisticalReportService: IStatisticalReportService
 	{
@@ -21,6 +23,8 @@ namespace FastFoodManagement.Service
 			_orderItemRepository = orderItemRepository;
 			_productRepository = productRepository;
 		}
+
+		
 
 		public async Task<StatisticSaleDTO> StatisticsSale(string? branchId, DateRangeDTO date)
 		{
@@ -116,6 +120,91 @@ namespace FastFoodManagement.Service
 			}
 
 			return RevenueByBranch;
+		}
+
+		public async Task<StatisticProductDTO> StatisticsProduct(DateRangeDTO date, string? branchId, string? categoryId)
+		{
+			var query = _orderItemRepository.GetMulti(
+				oi => oi.Order.CreatedAt.HasValue && oi.Order.CreatedAt >= date.StartDate && oi.Order.CreatedAt <= date.EndDate,
+				new[] { "Product" });
+
+			if(branchId != null && branchId != "")
+			{
+				query = query.Where(oi => oi.Order.BranchId == int.Parse(branchId));
+			}
+
+			if (categoryId != null && categoryId != "")
+			{
+				query = query.Where(oi => oi.Product.CategoryId == int.Parse(categoryId));
+			}
+
+			var orderItems = await query.ToListAsync();
+
+			// Top 10 sản phẩm theo doanh thu
+			var TopProductByRevenue = orderItems
+				.GroupBy(oi => oi.ProductId)
+				.Select(g => new
+				{
+					ProductName = g.First().Product.Name,
+					ProductId = g.Key,
+					TotalRevenue = g.Sum(oi => oi.Quantity * oi.Product.Price)
+				})
+				.OrderByDescending(g => g.TotalRevenue)
+				.Take(10)
+				.ToList();
+			var TopProductByRevenueChart = new AxisChartDTO();
+			foreach (var product in TopProductByRevenue)
+			{
+				TopProductByRevenueChart.Labels.Add(product.ProductName);
+				TopProductByRevenueChart.Data.Add(product.TotalRevenue);
+			}
+
+			// Top 10 sản phẩm theo số lượng bán
+			var TopProductBySale = orderItems
+				.GroupBy(oi => oi.ProductId)
+				.Select(g => new
+				{
+					ProductName = g.First().Product.Name,
+					ProductId = g.Key,
+					TotalSale = g.Sum(oi => oi.Quantity)
+				})
+				.OrderByDescending(g => g.TotalSale)
+				.Take(10)
+				.ToList();
+			var TopProductBySaleChart = new AxisChartDTO();
+			foreach (var product in TopProductBySale)
+			{
+				TopProductBySaleChart.Labels.Add(product.ProductName);
+				TopProductBySaleChart.Data.Add(product.TotalSale);
+			}
+
+			// Top 10 sản phẩm theo lợi nhuận
+			var TopProductBySaleSale = orderItems
+				.GroupBy(oi => oi.ProductId)
+				.Select(g => new
+				{
+					ProductName = g.First().Product.Name,
+					ProductId = g.Key,
+					TotalProfit = g.Sum(oi => oi.Quantity * (oi.Product.Price - oi.Product.CostPrice))
+				})
+				.OrderByDescending(g => g.TotalProfit)
+				.Take(10)
+				.ToList();
+			var TopProductByProfitChart = new AxisChartDTO();
+			foreach (var product in TopProductBySaleSale)
+			{
+				TopProductByProfitChart.Labels.Add(product.ProductName);
+				TopProductByProfitChart.Data.Add(product.TotalProfit);
+			}
+
+			var result = new StatisticProductDTO
+			{
+				TopProductByRevenue = TopProductByRevenueChart,
+				TopProductBySale = TopProductBySaleChart,
+				TopProductByProfit = TopProductByProfitChart
+			};
+
+			return result;
 		}
 	}
 }

@@ -19,4 +19,11 @@ namespace FastFoodManagement.Data.DTO.Statistic
 		public List<string> Labels { get; set; } = new List<string>();
 		public AxisChartDTO RevenueByBranch { get; set; } = new AxisChartDTO();
 	}
+
+	public class StatisticProductDTO
+	{
+		public AxisChartDTO TopProductByRevenue { get; set; } = new AxisChartDTO();
+		public AxisChartDTO TopProductBySale { get; set; } = new AxisChartDTO();
+		public AxisChartDTO TopProductByProfit { get; set; } = new AxisChartDTO();
+	}
 }

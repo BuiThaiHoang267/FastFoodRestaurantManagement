@@ -32,5 +32,21 @@ namespace FastFoodManagement.Web.Controllers
 				return BadRequest(response);
 			}
 		}
+
+		[HttpGet("product")]
+		public async Task<ActionResult<StatisticProductDTO>> StatisticsProduct([FromQuery] DateRangeDTO date, [FromQuery] string? branchId, [FromQuery] string? categoryId)
+		{
+			try
+			{
+				var result = await _statisticalReportService.StatisticsProduct(date, branchId, categoryId);
+				var response = ApiResponse<StatisticProductDTO>.SuccessResponse(result);
+				return Ok(response);
+			}
+			catch (System.Exception ex)
+			{
+				var response = ApiResponse<StatisticProductDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
+			}
+		}
 	}
 }
