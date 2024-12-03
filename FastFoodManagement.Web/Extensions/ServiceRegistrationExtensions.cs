@@ -36,6 +36,7 @@ namespace FastFoodManagement.Web.Extensions
 			services.AddScoped<IOrderService, OrderService>();
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IStatisticsService, StatisticsService>();
+			services.AddScoped<IRoleService, RoleService>();
 		}
 	}
 }

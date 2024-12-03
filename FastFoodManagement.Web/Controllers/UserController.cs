@@ -153,4 +153,26 @@ public class UserController : ControllerBase
             return BadRequest(response);
         }
     }
+
+    [HttpGet()]
+    public async Task<ActionResult<List<RetrieveUserDTO>>> GetUserByFilters
+        (
+            string? roles, 
+            string? branches, 
+            string? startDate, 
+            string? endDate
+        )
+    {
+        try
+        {
+            var users = await _userService.GetUserByFilters(roles, branches, startDate, endDate);
+			var userDTOs = _mapper.Map<List<RetrieveUserDTO>>(users);
+			var response = ApiResponse<List<RetrieveUserDTO>>.SuccessResponse(userDTOs);
+			return Ok(response);
+		}
+        catch ( Exception e ) {
+			var response = ApiResponse<RetrieveUserDTO>.ErrorResponse(e.Message, new List<string> { e.Message }, 500);
+			return BadRequest(response);
+		}
+	}
 }

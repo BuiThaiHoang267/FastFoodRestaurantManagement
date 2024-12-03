@@ -1,11 +1,11 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using FastFoodManagement.Data.DTO.User;
 using FastFoodManagement.Data.Infrastructure;
 using FastFoodManagement.Data.Repositories;
 using FastFoodManagement.Model.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -21,6 +21,7 @@ public interface IUserService
     Task<User> UpdateUser(User user);
     public void SaveChanges();
     public Task SuspendChanges();
+    public Task<List<User>> GetUserByFilters(string? roles, string? branches, string? startDate, string? endDate);
 }
 
 public class UserService : IUserService 
@@ -196,4 +197,38 @@ public class UserService : IUserService
 
         return new JwtSecurityTokenHandler().WriteToken(token);  // Return JWT token as string
     }
+
+	public async Task<List<User>> GetUserByFilters(string? roles, string? branches, string? startDate, string? endDate)
+	{
+        var query = _userRepository.GetAll()
+            .Include(u => u.Role)
+			.Include(u => u.Branch)
+			.AsQueryable();
+
+		if(roles != null)
+        {
+            var roleIds = roles.Split(',').Select(int.Parse).ToList();
+			query = query.Where(u => roleIds.Contains(u.RoleId));
+		}
+
+		if (branches != null)
+		{
+			var branchIds = branches.Split(',').Select(int.Parse).ToList();
+			query = query.Where(u => branchIds.Contains(u.BranchId));
+		}
+
+		if (startDate != null)
+		{
+			var start = DateTime.ParseExact(startDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+			query = query.Where(o => o.UpdatedAt >= start);
+		}
+
+		if (endDate != null)
+		{
+			var end = DateTime.ParseExact(endDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).AddDays(1).AddTicks(-1);
+			query = query.Where(o => o.UpdatedAt <= end);
+		}
+
+		return await query.ToListAsync();
+	}
 }
