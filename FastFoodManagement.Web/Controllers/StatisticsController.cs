@@ -7,7 +7,7 @@ namespace FastFoodManagement.Web.Controllers
 {
 	[Route("api/statistic")]
 	[ApiController]
-	public class StatisticsController : Controller
+	public class StatisticsController : ControllerBase
 	{
 		public IStatisticsService _statisticsService;
 		public StatisticsController(IStatisticsService statisticsService)

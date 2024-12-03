@@ -5,6 +5,7 @@ using FastFoodManagement.Data.DTO.Branch;
 using FastFoodManagement.Data.DTO.Order;
 using FastFoodManagement.Data.DTO.PaymentMethod;
 using FastFoodManagement.Data.DTO.User;
+using FastFoodManagement.Data.DTO.Role;
 
 namespace FastFoodManagement.Web.Mappings
 {
@@ -51,6 +52,9 @@ namespace FastFoodManagement.Web.Mappings
 			CreateMap<RetrieveUserDTO, User>();
 			CreateMap<User, RegisterUserDTO>();
 			CreateMap<RegisterUserDTO, User>();
+
+			CreateMap<Role, RetrieveRoleDTO>();
+			CreateMap<RetrieveRoleDTO, Role>();
 		}
 	}
 }
