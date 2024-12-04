@@ -58,7 +58,7 @@ namespace FastFoodManagement.Data.Infrastructure
             
             if (entity == null)
             {
-                throw new KeyNotFoundException($"{typeof(T).Name} with ID {id} was not found");
+                throw new KeyNotFoundException($"{typeof(T).Name} was not found");
             }
 
             _dbSet.Remove(entity);
@@ -80,7 +80,7 @@ namespace FastFoodManagement.Data.Infrastructure
 			T? entity = await _dbSet.FindAsync(id);
             if(entity == null)
             {
-                throw new KeyNotFoundException($"{typeof(T).Name} with ID {id} was not found");
+                throw new KeyNotFoundException($"{typeof(T).Name} was not found");
 			}
 			return entity;
 		}

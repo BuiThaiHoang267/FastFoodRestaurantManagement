@@ -191,7 +191,7 @@ public class UserService : IUserService
             issuer: Environment.GetEnvironmentVariable("JWT_ISSUER"),
             audience: Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
             claims: claims,
-            expires: DateTime.Now.AddHours(48),
+            expires: DateTime.Now.AddHours(12),
             signingCredentials: credentials
         );
 
