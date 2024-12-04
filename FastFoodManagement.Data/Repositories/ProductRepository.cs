@@ -25,6 +25,7 @@ namespace FastFoodManagement.Data.Repositories
 		public IQueryable<Product> GetAllDetail()
 		{
 			var query = this.GetAll()
+				.Where(p => p.DeletedAt == null)
 				.Include(p => p.Category)
 				.Include(p => p.ComboItems)
 				.ThenInclude(c => c.Product);

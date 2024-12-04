@@ -20,6 +20,7 @@ namespace FastFoodManagement.Service
         Task<Product> GetById(int id);
         Task<List<Product>> GetTypeProduct();
         Task DeleteById(int id);
+        Task SoftDeleteById(int id);
 		Task Add(Product product);
 		void SaveChanges();
         Task SuspendSaveChanges();
@@ -28,10 +29,12 @@ namespace FastFoodManagement.Service
     public class ProductService : IProductService
     {
         private IProductRepository _productRepository;
+        private IComboItemRepository _comboItemRepository;
         private IUnitOfWork _unitOfWork;
-		public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork) 
+		public ProductService(IProductRepository productRepository, IComboItemRepository comboItemRepository, IUnitOfWork unitOfWork) 
         {
             _productRepository = productRepository;
+            _comboItemRepository = comboItemRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -50,6 +53,23 @@ namespace FastFoodManagement.Service
 		public async Task DeleteById(int id)
 		{
             await _productRepository.DeleteMulti(p => p.Id == id);
+			await SuspendSaveChanges();
+		}
+
+		public async Task SoftDeleteById(int id)
+		{
+			var product = _productRepository.GetMulti(p => p.Id == id).FirstOrDefault();
+			if (product == null)
+			{
+				throw new Exception("Product not found");
+			}
+			var comboItems = await _comboItemRepository.GetMulti(ci => ci.ProductId == id).ToListAsync();
+			if (comboItems.Count > 0)
+			{
+				throw new Exception("Product is in use");
+			}
+			product.DeletedAt = DateTime.Now;
+			await _productRepository.Update(product);
 			await SuspendSaveChanges();
 		}
 

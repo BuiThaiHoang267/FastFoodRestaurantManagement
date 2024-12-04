@@ -138,5 +138,21 @@ namespace FastFoodManagement.Web.Controllers
 				return BadRequest(response);
 			}
 		}
+		
+		[HttpPatch("soft-delete/{id:int}")]
+		public async Task<ActionResult<ProductDTO>> SoftDeleteProduct(int id)
+		{
+			try
+			{
+				await _productService.SoftDeleteById(id);
+				var response = ApiResponse<ProductDTO>.SuccessResponse(null);
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				var response = ApiResponse<ProductDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+				return BadRequest(response);
+			}
+		}
 	}
 }
