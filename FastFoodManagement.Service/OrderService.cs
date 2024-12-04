@@ -319,7 +319,8 @@ public class OrderService : IOrderService
             .Include(o => o.Branch)
             .Include(o => o.OrderItems)
             .ThenInclude(oi => oi.Product)
-            .AsQueryable();
+            .OrderByDescending(o => o.UpdatedAt)
+			.AsQueryable();
 		if (id != null && int.TryParse(id, out var orderId))
 		{
 			query = query.Where(o => o.Id == orderId);
