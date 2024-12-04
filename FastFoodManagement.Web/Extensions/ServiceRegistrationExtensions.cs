@@ -24,6 +24,7 @@ namespace FastFoodManagement.Web.Extensions
 			services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IRoleRepository, RoleRepository>();
+			services.AddScoped<IComboItemRepository, ComboItemRepository>();
 		}
 
 		// Dependency Injection Services
