@@ -265,12 +265,12 @@ public class OrderController : ControllerBase
 		}
 	}
 
-    [HttpGet("status-pending")]
-    public async Task<ActionResult<List<RetrieveOrderDTO>>> GetOrdersByStatusPending()
+    [HttpGet("status-pending/{branchId:int}")]
+    public async Task<ActionResult<List<RetrieveOrderDTO>>> GetOrdersByStatusPending(int branchId)
 	{
 		try
 		{
-			var orders = await _orderService.GetOrderPending();
+			var orders = await _orderService.GetOrderPending(branchId);
 			var orderDTOs = _mapper.Map<List<RetrieveOrderDTO>>(orders);
 			var response = ApiResponse<List<RetrieveOrderDTO>>.SuccessResponse(orderDTOs, code: 200);
 			return Ok(response);
@@ -282,12 +282,12 @@ public class OrderController : ControllerBase
 		}
 	}
 
-    [HttpGet("item/status-cooked")]
-	public async Task<ActionResult<List<RetrieveOrderItemDTO>>> GetOrderItemsByStatusCooked()
+    [HttpGet("item/status-cooked/{branchId:int}")]
+	public async Task<ActionResult<List<RetrieveOrderItemDTO>>> GetOrderItemsByStatusCooked(int branchId)
 	{
 		try
 		{
-			var orderItems = await _orderService.GetOrderItemsCooked();
+			var orderItems = await _orderService.GetOrderItemsCooked(branchId);
 			var orderItemDTOs = _mapper.Map<List<RetrieveOrderItemDTO>>(orderItems);
 			var response = ApiResponse<List<RetrieveOrderItemDTO>>.SuccessResponse(orderItemDTOs, code: 200);
 			return Ok(response);

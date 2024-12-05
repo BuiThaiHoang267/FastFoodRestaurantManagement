@@ -11,7 +11,7 @@ public interface IOrderService
 {
     public Task<List<Order>> GetAllOrders();
     public Task<Order> GetOrderById(int id);
-    public Task<List<Order>> GetOrderPending();
+    public Task<List<Order>> GetOrderPending(int branchId);
     public Task<List<Order>> GetOrderByFilters(string? id, string? paymentMethods, string? branches, string? startDate, string? endDate);
     public Task<Order> CreateOrder(Order order);
     public Task AddOrder(Order order);
@@ -19,7 +19,7 @@ public interface IOrderService
     public Task UpdateOrder(Order order);
     public Task<List<OrderItem>> GetAllOrderItemsByOrderId(int id);
     public Task<OrderItem> GetOrderItemById(int id);
-    public Task<List<OrderItem>> GetOrderItemsCooked();
+    public Task<List<OrderItem>> GetOrderItemsCooked(int branchId);
     public Task AddOneOrderItem(OrderItem orderItem);
     public Task DeleteOrderItemById(int id);
     public Task UpdateOrderItem(OrderItem orderItem);
@@ -354,10 +354,10 @@ public class OrderService : IOrderService
         return await query.ToListAsync();
 	}
 
-	public Task<List<Order>> GetOrderPending()
+	public Task<List<Order>> GetOrderPending(int branchId)
 	{
 		var query = _orderRepository.GetAll()
-            .Where(o => o.Status == OrderStatus.Pending.ToStringValue())
+            .Where(o => o.Status == OrderStatus.Pending.ToStringValue() && o.BranchId == branchId)
 			.Include(o => o.PaymentMethod)
 			.Include(o => o.Branch)
 			.Include(o => o.OrderItems.Where(oi => oi.Status == OrderItemStatus.Pending.ToStringValue()))
@@ -369,7 +369,7 @@ public class OrderService : IOrderService
 		return query.ToListAsync();
 	}
 
-	public async Task<List<OrderItem>> GetOrderItemsCooked()
+	public async Task<List<OrderItem>> GetOrderItemsCooked(int branchId)
 	{
 		var query = _orderItemRepository.GetAll()
 			.Where(oi => oi.Status == OrderItemStatus.Cooked.ToStringValue())
@@ -377,6 +377,7 @@ public class OrderService : IOrderService
 			.Include(oi => oi.Product)
             .ThenInclude(p => p.ComboItems)
 			.ThenInclude(ci => ci.Product)
+            .Where(oi => oi.Order.BranchId == branchId)
 			.AsQueryable();
 
 		return await query.ToListAsync();
