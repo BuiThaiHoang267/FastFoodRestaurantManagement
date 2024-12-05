@@ -25,6 +25,7 @@ namespace FastFoodManagement.Web.Extensions
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IRoleRepository, RoleRepository>();
 			services.AddScoped<IComboItemRepository, ComboItemRepository>();
+			services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 		}
 
 		// Dependency Injection Services
@@ -39,6 +40,7 @@ namespace FastFoodManagement.Web.Extensions
 			services.AddScoped<IStatisticsService, StatisticsService>();
 			services.AddScoped<IRoleService, RoleService>();
 			services.AddScoped<IStatisticalReportService, StatisticalReportService>();
+			services.AddScoped<IAuditLogService, AuditLogService>();
 		}
 	}
 }

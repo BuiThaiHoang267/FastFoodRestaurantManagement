@@ -30,16 +30,21 @@ namespace FastFoodManagement.Service
     {
         private IProductRepository _productRepository;
         private IComboItemRepository _comboItemRepository;
-        private IUnitOfWork _unitOfWork;
-		public ProductService(IProductRepository productRepository, IComboItemRepository comboItemRepository, IUnitOfWork unitOfWork) 
+		private IAuditLogService _auditLogService;
+		private IUnitOfWork _unitOfWork;
+		public ProductService(IProductRepository productRepository, IComboItemRepository comboItemRepository, IUnitOfWork unitOfWork, IAuditLogService auditLogService) 
         {
             _productRepository = productRepository;
             _comboItemRepository = comboItemRepository;
-            _unitOfWork = unitOfWork;
+			_auditLogService = auditLogService;
+			_unitOfWork = unitOfWork;
         }
 
 		public async Task Add(Product product, string name)
 		{
+			// save auditlog
+			string description = $"{name} vừa thêm 1 sản phẩm {product.Name}";
+			await _auditLogService.AddAuditLogAsync(name, "Add", "Product", description);
 			await _productRepository.Add(product);
             await SuspendSaveChanges();
 		}
@@ -69,6 +74,11 @@ namespace FastFoodManagement.Service
 				throw new Exception("Product is in use");
 			}
 			product.DeletedAt = DateTime.Now;
+			
+			// save auditlog
+			string description = $"{name} vừa xóa 1 sản phẩm {product.Name}";
+			await _auditLogService.AddAuditLogAsync(name, "Delete", "Product", description);
+
 			await _productRepository.Update(product);
 			await SuspendSaveChanges();
 		}

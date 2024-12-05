@@ -35,6 +35,7 @@ public class OrderService : IOrderService
     private IPaymentMethodRepository _paymentMethodRepository;
     private IBranchRepository _branchRepository;
     private IProductRepository _productRepository;
+    private readonly IAuditLogService _auditLogService;
     private IUnitOfWork _unitOfWork;
 
     public OrderService(
@@ -43,14 +44,16 @@ public class OrderService : IOrderService
         IBranchRepository branchRepository,
         IPaymentMethodRepository paymentMethodRepository,
         IProductRepository productRepository,
-        IUnitOfWork unitOfWork)
+		IAuditLogService auditLogService,
+		IUnitOfWork unitOfWork)
     {
         _orderRepository = orderRepository;
         _orderItemRepository = orderItemRepository;
         _branchRepository = branchRepository;
         _paymentMethodRepository = paymentMethodRepository;
         _productRepository = productRepository;
-        _unitOfWork = unitOfWork;
+		_auditLogService = auditLogService;
+		_unitOfWork = unitOfWork;
     }
     
     public async Task<List<Order>> GetAllOrders()
@@ -104,7 +107,9 @@ public class OrderService : IOrderService
 
     public async Task AddOrder(Order order, string name)
     {
-        await _orderRepository.Add(order);
+		string description = $"{name} vừa tạo hóa đơn trị giá {order.TotalPrice:N0}đ";
+		await _auditLogService.AddAuditLogAsync(name, "Create", "Order", description);
+		await _orderRepository.Add(order);
         await SuspendChanges();
     }
 
@@ -115,8 +120,11 @@ public class OrderService : IOrderService
         {
             await _orderItemRepository.DeleteById(orderItem.Id);
         }
-        
-        await _orderRepository.DeleteById(id);
+		// save auditlog
+		string description = $"{name} vừa xóa hóa đơn {id}";
+		await _auditLogService.AddAuditLogAsync(name, "Delete", "Order", description);
+
+		await _orderRepository.DeleteById(id);
         await SuspendChanges();
     }
 

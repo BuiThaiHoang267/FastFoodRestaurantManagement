@@ -38,6 +38,7 @@ namespace FastFoodManagement.Model.Models
         [ForeignKey("Role")]
         public int RoleId { get; set; }
 
+        [Required]
         [ForeignKey("Branch")]
         public int BranchId { get; set; }
 
@@ -45,6 +46,6 @@ namespace FastFoodManagement.Model.Models
         public virtual Role Role { get; set; } = default!;
 
         // Navigation property to Branch
-        public virtual Branch? Branch { get; set; }
-    }
+        public virtual Branch Branch { get; set; } = default!;
+	}
 }

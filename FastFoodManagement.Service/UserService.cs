@@ -29,19 +29,22 @@ public class UserService : IUserService
     private IUserRepository _userRepository;
     private IRoleRepository _roleRepository;
     private IBranchRepository _branchRepository;
-    private IUnitOfWork _unitOfWork;
+    private IAuditLogService _auditLogService;
+	private IUnitOfWork _unitOfWork;
 
     public UserService(
         IUserRepository userRepository,
         IRoleRepository roleRepository,
         IBranchRepository branchRepository,
+        IAuditLogService auditLogService,
         IUnitOfWork unitOfWork
         )
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _branchRepository = branchRepository;
-        _unitOfWork = unitOfWork;
+		_auditLogService = auditLogService;
+		_unitOfWork = unitOfWork;
     }
 
     public async Task<User> RegisterUser(RegisterUserDTO userDto, string name)
@@ -94,7 +97,10 @@ public class UserService : IUserService
         await _userRepository.Add(newUser);
         try
         {
-            await SuspendChanges();
+			// save auditlog
+			string description = $"{name} vừa thêm 1 người dùng {newUser.Name}";
+			await _auditLogService.AddAuditLogAsync(name, "Add", "User", description);
+			await SuspendChanges();
         }
         catch (Exception ex)
         {
@@ -149,13 +155,21 @@ public class UserService : IUserService
     
     public async Task DeleteUserById(int id, string name)
     {
-        await _userRepository.DeleteById(id);
+		// save auditlog
+		string description = $"{name} vừa xóa 1 người dùng {id}";
+		await _auditLogService.AddAuditLogAsync(name, "Delete", "User", description);
+
+		await _userRepository.DeleteById(id);
         await SuspendChanges();
     }
     
     public async Task<User> UpdateUser(User user, string name)
     {
-        await _userRepository.Update(user);
+		// save auditlog
+		string description = $"{name} vừa cập nhật thông tin người dùng {user.Name}";
+		await _auditLogService.AddAuditLogAsync(name, "Update", "User", description);
+
+		await _userRepository.Update(user);
         await SuspendChanges();
         return user;
     }

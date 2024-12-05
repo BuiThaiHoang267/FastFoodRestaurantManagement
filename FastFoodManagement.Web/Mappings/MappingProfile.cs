@@ -6,6 +6,7 @@ using FastFoodManagement.Data.DTO.Order;
 using FastFoodManagement.Data.DTO.PaymentMethod;
 using FastFoodManagement.Data.DTO.User;
 using FastFoodManagement.Data.DTO.Role;
+using FastFoodManagement.Data.DTO.AuditLog;
 
 namespace FastFoodManagement.Web.Mappings
 {
@@ -55,6 +56,9 @@ namespace FastFoodManagement.Web.Mappings
 
 			CreateMap<Role, RetrieveRoleDTO>();
 			CreateMap<RetrieveRoleDTO, Role>();
+
+			CreateMap<AuditLog, AuditLogDTO>();
+			CreateMap<AuditLogDTO, AuditLog>();
 		}
 	}
 }

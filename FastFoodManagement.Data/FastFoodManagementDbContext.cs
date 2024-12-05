@@ -16,7 +16,8 @@ namespace FastFoodManagement.Data
         {
 
         }
-        public DbSet<Branch> Branches { get; set; }
+		public DbSet<AuditLog> AuditLogs { get; set; }
+		public DbSet<Branch> Branches { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
@@ -61,18 +62,6 @@ namespace FastFoodManagement.Data
                 .WithMany(ci => ci.ProductInComboItems)
                 .HasForeignKey(ci => ci.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Role) 
-                .WithMany(r => r.Users)
-                .HasForeignKey(u => u.RoleId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Branch)
-                .WithMany(b => b.Users)
-                .HasForeignKey(u => u.BranchId)
-                .OnDelete(DeleteBehavior.SetNull);
         }
         
         public override int SaveChanges()
