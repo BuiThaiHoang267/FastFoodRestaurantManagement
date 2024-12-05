@@ -141,7 +141,7 @@ public class UserService : IUserService
     {
         var user = await _userRepository
             .GetMulti(
-                u => true,
+                u => u.Id == id,
                 new string[] { "Role", "Branch" })
             .FirstOrDefaultAsync();
         return user;

@@ -6,8 +6,9 @@ public class UpdateUserDTO
 {
     [MaxLength(50)]
     public string? Name { get; set; }
-    
-    [MaxLength(15)]
+    public string? password { get; set; }
+
+	[MaxLength(15)]
     public string? Phone { get; set; }
     
     [EmailAddress]
