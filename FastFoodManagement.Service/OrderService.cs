@@ -14,8 +14,8 @@ public interface IOrderService
     public Task<List<Order>> GetOrderPending(int branchId);
     public Task<List<Order>> GetOrderByFilters(string? id, string? paymentMethods, string? branches, string? startDate, string? endDate);
     public Task<Order> CreateOrder(Order order);
-    public Task AddOrder(Order order);
-    public Task DeleteOrderById(int id);
+    public Task AddOrder(Order order, string name);
+    public Task DeleteOrderById(int id, string name);
     public Task UpdateOrder(Order order);
     public Task<List<OrderItem>> GetAllOrderItemsByOrderId(int id);
     public Task<OrderItem> GetOrderItemById(int id);
@@ -102,13 +102,13 @@ public class OrderService : IOrderService
     
     }
 
-    public async Task AddOrder(Order order)
+    public async Task AddOrder(Order order, string name)
     {
         await _orderRepository.Add(order);
         await SuspendChanges();
     }
 
-    public async Task DeleteOrderById(int id)
+    public async Task DeleteOrderById(int id, string name)
     {
         var orderItems = await _orderItemRepository.GetMulti(item => item.OrderId == id, null).ToListAsync();
         foreach (var orderItem in orderItems)

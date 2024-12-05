@@ -4,6 +4,7 @@ using FastFoodManagement.Data.Enums;
 using FastFoodManagement.Model.Models;
 using FastFoodManagement.Service;
 using FastFoodManagement.Web.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodManagement.Web.Controllers;
@@ -56,6 +57,7 @@ public class OrderController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpPost("create")]
     public async Task<ActionResult<ApiResponse<CreateOrderDTO>>> CreateOrder(CreateOrderDTO orderDTO)
     {
@@ -70,7 +72,7 @@ public class OrderController : ControllerBase
 
             order.Status = OrderStatusExtensions.ToStringValue(OrderStatus.Pending);
 
-			await _orderService.AddOrder(order);
+			await _orderService.AddOrder(order, User.FindFirst("Name")?.Value);
             var response = ApiResponse<CreateOrderDTO>.SuccessResponse(orderDTO, code: 200);
             return Ok(response);
         }
@@ -81,12 +83,13 @@ public class OrderController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpDelete("delete/{id:int}")]
     public async Task<ActionResult> DeleteOrderById(int id)
     {
         try
         {
-            await _orderService.DeleteOrderById(id);
+            await _orderService.DeleteOrderById(id, User.FindFirst("Name")?.Value);
             var response = new ApiResponse<RetrieveOrderDTO>(message: $"Order ${id} deleted successfully", code: 200, success: true);
             return Ok(response);
         }

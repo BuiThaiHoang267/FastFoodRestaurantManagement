@@ -13,12 +13,12 @@ namespace FastFoodManagement.Service;
 
 public interface IUserService
 {
-    Task<User> RegisterUser(RegisterUserDTO userDto);
+    Task<User> RegisterUser(RegisterUserDTO userDto, string name);
     Task<string> AuthenticateUser(string username, string password);
     Task<List<User>> GetAllUsers();
     Task<User> GetUserById(int id);
-    Task DeleteUserById(int id);
-    Task<User> UpdateUser(User user);
+    Task DeleteUserById(int id, string name);
+    Task<User> UpdateUser(User user, string name);
     public void SaveChanges();
     public Task SuspendChanges();
     public Task<List<User>> GetUserByFilters(string? roles, string? branches, string? startDate, string? endDate);
@@ -44,7 +44,7 @@ public class UserService : IUserService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<User> RegisterUser(RegisterUserDTO userDto)
+    public async Task<User> RegisterUser(RegisterUserDTO userDto, string name)
     {
         var existingUser = await _userRepository
             .GetMulti(
@@ -147,13 +147,13 @@ public class UserService : IUserService
         return user;
     }
     
-    public async Task DeleteUserById(int id)
+    public async Task DeleteUserById(int id, string name)
     {
         await _userRepository.DeleteById(id);
         await SuspendChanges();
     }
     
-    public async Task<User> UpdateUser(User user)
+    public async Task<User> UpdateUser(User user, string name)
     {
         await _userRepository.Update(user);
         await SuspendChanges();
