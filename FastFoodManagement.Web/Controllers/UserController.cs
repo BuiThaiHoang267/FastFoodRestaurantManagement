@@ -2,6 +2,7 @@
 using FastFoodManagement.Data.DTO.User;
 using FastFoodManagement.Service;
 using FastFoodManagement.Web.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastFoodManagement.Web.Controllers;
@@ -19,12 +20,13 @@ public class UserController : ControllerBase
         _mapper = mapper;
     }
     
+    [Authorize]
     [HttpPost("register")]
     public async Task<ActionResult<ApiResponse<RetrieveUserDTO>>> RegisterUser(RegisterUserDTO registerUserDTO)
     {
         try
         {
-            var user = await _userService.RegisterUser(registerUserDTO);
+            var user = await _userService.RegisterUser(registerUserDTO, User.FindFirst("Name")?.Value);
             var userDTO = _mapper.Map<RetrieveUserDTO>(user);
             var response = ApiResponse<RetrieveUserDTO>.SuccessResponse(userDTO, code: 200);
             return Ok(response);
@@ -89,12 +91,13 @@ public class UserController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteUserById(int id)
     {
         try
         {
-            await _userService.DeleteUserById(id);
+            await _userService.DeleteUserById(id, User.FindFirst("Name")?.Value);
             var response = new ApiResponse<RetrieveUserDTO>(message: $"User ${id} deleted successfully", code: 200, success: true);
             return Ok(response);
         }
@@ -105,6 +108,7 @@ public class UserController : ControllerBase
         }
     }
     
+    [Authorize]
     [HttpPatch("update/{id:int}")]
     public async Task<ActionResult<ApiResponse<RetrieveUserDTO>>> UpdateUser(int id, UpdateUserDTO updateUserDTO)
     {
@@ -120,6 +124,10 @@ public class UserController : ControllerBase
             if (updateUserDTO.Name != null)
             {
                 user.Name = updateUserDTO.Name;
+            }
+            if (updateUserDTO.Password != null)
+            {
+                user.Password = BCrypt.Net.BCrypt.HashPassword(updateUserDTO.Password);
             }
             if (updateUserDTO.Phone != null)
             {
@@ -142,7 +150,7 @@ public class UserController : ControllerBase
                 user.BranchId = updateUserDTO.BranchId.Value;
             }
             
-            await _userService.UpdateUser(user);
+            await _userService.UpdateUser(user, User.FindFirst("Name")?.Value);
             var userDTO = _mapper.Map<RetrieveUserDTO>(user);
             var response1 = ApiResponse<RetrieveUserDTO>.SuccessResponse(userDTO, code: 200);
             return Ok(response1);

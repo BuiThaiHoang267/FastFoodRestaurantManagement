@@ -19,12 +19,12 @@ namespace FastFoodManagement.Service
         Task<List<Product>> GetAllProducts();
         Task<Product> GetById(int id);
         Task<List<Product>> GetTypeProduct();
-        Task DeleteById(int id);
-        Task SoftDeleteById(int id);
-		Task Add(Product product);
+        Task DeleteById(int id, string name);
+        Task SoftDeleteById(int id, string name);
+		Task Add(Product product, string name);
 		void SaveChanges();
         Task SuspendSaveChanges();
-        Task DeleteAll();
+        Task DeleteAll(string name);
     }
     public class ProductService : IProductService
     {
@@ -38,25 +38,25 @@ namespace FastFoodManagement.Service
             _unitOfWork = unitOfWork;
         }
 
-		public async Task Add(Product product)
+		public async Task Add(Product product, string name)
 		{
 			await _productRepository.Add(product);
             await SuspendSaveChanges();
 		}
 
-		public async Task DeleteAll()
+		public async Task DeleteAll(string name)
 		{
 			await _productRepository.DeleteAll();
 			await SuspendSaveChanges();
 		}
 
-		public async Task DeleteById(int id)
+		public async Task DeleteById(int id, string name)
 		{
             await _productRepository.DeleteMulti(p => p.Id == id);
 			await SuspendSaveChanges();
 		}
 
-		public async Task SoftDeleteById(int id)
+		public async Task SoftDeleteById(int id, string name)
 		{
 			var product = _productRepository.GetMulti(p => p.Id == id).FirstOrDefault();
 			if (product == null)

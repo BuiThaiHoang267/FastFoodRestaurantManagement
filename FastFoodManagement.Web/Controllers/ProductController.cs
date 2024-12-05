@@ -3,6 +3,7 @@ using FastFoodManagement.Model.Models;
 using FastFoodManagement.Service;
 using FastFoodManagement.Web.Common;
 using FastFoodManagement.Data.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +21,7 @@ namespace FastFoodManagement.Web.Controllers
 			_productService = productService;
 			_mapper = mapper;
 		}
-
+		
 		[HttpGet("all")]
 		public async Task<ActionResult<List<Product>>> GetAllProduct()
 		{
@@ -71,13 +72,14 @@ namespace FastFoodManagement.Web.Controllers
 			}
 		}
 
+		[Authorize]
 		[HttpPost("create")]
 		public async Task<ActionResult<ProductDTO>> CreateProduct(ProductDTO productDTO)
 		{
 			try
 			{
 				var product = _mapper.Map<Product>(productDTO);
-				await _productService.Add(product);
+				await _productService.Add(product, User.FindFirst("Name")?.Value);
 				var response = ApiResponse<ProductDTO>.SuccessResponse(productDTO);
 				return Ok(response);
 			}
@@ -88,12 +90,13 @@ namespace FastFoodManagement.Web.Controllers
 			}
 		}
 
+		[Authorize]
 		[HttpDelete("delete/{id:int}")]
 		public async Task<ActionResult<ProductDTO>> DeleteProduct(int id)
 		{
 			try
 			{
-				await _productService.DeleteById(id);
+				await _productService.DeleteById(id, User.FindFirst("Name")?.Value);
 				var response = ApiResponse<ProductDTO>.SuccessResponse(null);
 				return Ok(response);
 			}
@@ -104,13 +107,14 @@ namespace FastFoodManagement.Web.Controllers
 			}
 		}
 
+		[Authorize]
 		// Delete All Products
 		[HttpDelete("delete/all")]
 		public async Task<ActionResult<ProductDTO>> DeleteAllProduct()
 		{
 			try
 			{
-				await _productService.DeleteAll();
+				await _productService.DeleteAll(User.FindFirst("Name")?.Value);
 				var response = ApiResponse<ProductDTO>.SuccessResponse(null);
 				return Ok(response);
 			}
@@ -139,12 +143,13 @@ namespace FastFoodManagement.Web.Controllers
 			}
 		}
 		
+		[Authorize]
 		[HttpPatch("soft-delete/{id:int}")]
 		public async Task<ActionResult<ProductDTO>> SoftDeleteProduct(int id)
 		{
 			try
 			{
-				await _productService.SoftDeleteById(id);
+				await _productService.SoftDeleteById(id, User.FindFirst("Name")?.Value);
 				var response = ApiResponse<ProductDTO>.SuccessResponse(null);
 				return Ok(response);
 			}
