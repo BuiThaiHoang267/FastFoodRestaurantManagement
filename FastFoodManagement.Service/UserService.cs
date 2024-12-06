@@ -7,6 +7,7 @@ using FastFoodManagement.Data.Infrastructure;
 using FastFoodManagement.Data.Repositories;
 using FastFoodManagement.Model.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FastFoodManagement.Service;
@@ -31,13 +32,15 @@ public class UserService : IUserService
     private IBranchRepository _branchRepository;
     private IAuditLogService _auditLogService;
 	private IUnitOfWork _unitOfWork;
+    private IConfiguration _configuration;
 
     public UserService(
         IUserRepository userRepository,
         IRoleRepository roleRepository,
         IBranchRepository branchRepository,
         IAuditLogService auditLogService,
-        IUnitOfWork unitOfWork
+        IUnitOfWork unitOfWork,
+        IConfiguration configuration
         )
     {
         _userRepository = userRepository;
@@ -45,6 +48,7 @@ public class UserService : IUserService
         _branchRepository = branchRepository;
 		_auditLogService = auditLogService;
 		_unitOfWork = unitOfWork;
+        _configuration = configuration;
     }
 
     public async Task<User> RegisterUser(RegisterUserDTO userDto, string name)
@@ -198,12 +202,12 @@ public class UserService : IUserService
             new Claim("Branch", user.Branch.Name)
         };
         
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY")));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: Environment.GetEnvironmentVariable("JWT_ISSUER"),
-            audience: Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
+            issuer: _configuration["Jwt:Issuer"],
+            audience: _configuration["Jwt:Audience"],
             claims: claims,
             expires: DateTime.Now.AddHours(12),
             signingCredentials: credentials

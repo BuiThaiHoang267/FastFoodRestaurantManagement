@@ -23,6 +23,8 @@ builder.Services.AddControllersWithViews();
 //builder.Services.AddDbContext<FastFoodManagementDbContext>(option =>
 //	option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
 // Configure DbContext with connection string
 builder.Services.AddDbContext<FastFoodManagementDbContext>(options =>
 	options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
@@ -40,9 +42,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			ValidateIssuer = true,
 			ValidateAudience = true,
 			ValidateLifetime = true,
-			ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
-			ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
-			// Hoàng s?a ch? này
+			ValidIssuer = builder.Configuration["Jwt:Issuer"],
+			ValidAudience = builder.Configuration["Jwt:Audience"],
+			// Hoï¿½ng s?a ch? nï¿½y
 			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Jwt:SecretKey is not set")))
 		};
 		// Handle authentication failure
