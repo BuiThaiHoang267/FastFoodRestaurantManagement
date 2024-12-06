@@ -47,15 +47,16 @@
 		// Getter và Setter cho StartDate
 		public DateTime StartDate
 		{
-			get => _startDate.ToLocalTime();  // Khi lấy giá trị, chuyển sang múi giờ địa phương
-			set => _startDate = value.ToUniversalTime();  // Khi gán giá trị, chuyển thành UTC
+			// get time zone in Viet Nam
+			get => _startDate.AddHours(7);   
+			set => _startDate = value.ToUniversalTime();  // 
 		}
 
 		// Getter và Setter cho EndDate
 		public DateTime EndDate
 		{
-			get => _endDate.ToLocalTime();  // Khi lấy giá trị, chuyển sang múi giờ địa phương
-			set => _endDate = value.ToUniversalTime();  // Khi gán giá trị, chuyển thành UTC
+			get => _endDate.AddHours(7);  // 
+			set => _endDate = value.ToUniversalTime();  // 
 		}
 	}
 
