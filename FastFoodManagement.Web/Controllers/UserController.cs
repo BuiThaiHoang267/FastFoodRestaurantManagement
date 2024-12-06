@@ -38,6 +38,23 @@ public class UserController : ControllerBase
         }
     }
     
+    [HttpPost("un-author-register")]
+    public async Task<ActionResult<ApiResponse<RetrieveUserDTO>>> UnAuthorRegisterUser(RegisterUserDTO registerUserDTO)
+    {
+        try
+        {
+            var user = await _userService.RegisterUser(registerUserDTO, "Admin");
+            var userDTO = _mapper.Map<RetrieveUserDTO>(user);
+            var response = ApiResponse<RetrieveUserDTO>.SuccessResponse(userDTO, code: 200);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            var response = ApiResponse<RetrieveUserDTO>.ErrorResponse(ex.Message, new List<string> { ex.Message }, 500);
+            return BadRequest(response);
+        }
+    }
+    
     [HttpPost("login")]
     public async Task<ActionResult<ApiResponse<string>>> LoginUser(LoginUserDTO loginUserDTO)
     {
