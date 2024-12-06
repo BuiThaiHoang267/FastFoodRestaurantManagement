@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net;
 using System.Text;
 using Azure.Core;
 using DotNetEnv;
@@ -41,7 +42,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			ValidateLifetime = true,
 			ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
 			ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
-			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY")))
+			// Hoàng s?a ch? này
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("Jwt:SecretKey is not set")))
 		};
 		// Handle authentication failure
 		options.Events = new JwtBearerEvents
@@ -132,6 +134,7 @@ builder.Services.AddCors(options =>
 {
 	options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
+
 
 var app = builder.Build();
 
