@@ -91,12 +91,13 @@ namespace FastFoodManagement.Data
                 // Set CreatedAt only on new entities (State == Added)
                 if (entry.State == EntityState.Added)
                 {
-                    entity.CreatedAt = DateTime.Now;  // Set to current UTC time
-                }
+					// Set Time Zone Vietnam
+					entity.CreatedAt = DateTime.UtcNow.AddHours(7);
+				}
 
-                // Always set UpdatedAt on both Added and Modified entities
-                entity.UpdatedAt = DateTime.Now;
-            }
+				// Always set UpdatedAt on both Added and Modified entities
+				entity.UpdatedAt = DateTime.UtcNow.AddHours(7);
+			}
         }
     }
 }

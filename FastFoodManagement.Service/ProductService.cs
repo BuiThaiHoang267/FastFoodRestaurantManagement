@@ -44,7 +44,7 @@ namespace FastFoodManagement.Service
 		{
 			// save auditlog
 			string description = $"{name} vừa thêm 1 sản phẩm {product.Name}";
-			await _auditLogService.AddAuditLogAsync(name, "Add", "Product", description);
+			await _auditLogService.AddAuditLogAsync(name, "Create", "Product", description);
 			await _productRepository.Add(product);
             await SuspendSaveChanges();
 		}

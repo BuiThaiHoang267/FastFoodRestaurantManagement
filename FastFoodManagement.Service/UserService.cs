@@ -103,7 +103,7 @@ public class UserService : IUserService
         {
 			// save auditlog
 			string description = $"{name} vừa thêm 1 người dùng {newUser.Name}";
-			await _auditLogService.AddAuditLogAsync(name, "Add", "User", description);
+			await _auditLogService.AddAuditLogAsync(name, "Create", "User", description);
 			await SuspendChanges();
         }
         catch (Exception ex)
